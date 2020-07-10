@@ -11,7 +11,7 @@ for (let i = 0; i < size; i ++){
 
 //cut
 function divide(x1, y1, x2, y2, hPlace, prevDir){
-    if (x2 - x1 <= 0 || y2 - y1 <= 0){
+    if (x2 - x1 <= 1 || y2 - y1 <= 1){
     	return;
     }
 	let dir = (x2 - x1) < (y2 - y1) ? "h" : "v";
@@ -71,6 +71,11 @@ function divide(x1, y1, x2, y2, hPlace, prevDir){
 
 divide(0, 0, size - 1, size - 1);
 render();
+
+function reset(){
+  divide(0, 0, size - 1, size - 1);
+  render();
+}
 
 //append
 function render(){
