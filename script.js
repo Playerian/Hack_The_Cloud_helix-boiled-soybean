@@ -1,4 +1,4 @@
-let size = 7;
+let size = 50;
 let cells = [];
 
 //init
@@ -8,6 +8,7 @@ for (let i = 0; i < size; i ++){
     	cells[i][j] = "a";
     }
 }
+let backupCells = JSON.parse(JSON.stringify(cells));
 
 //cut
 function divide(x1, y1, x2, y2, hPlace, prevDir){
@@ -73,6 +74,7 @@ divide(0, 0, size - 1, size - 1);
 render();
 
 function reset(){
+  cells = JSON.parse(JSON.stringify(backupCells));
   divide(0, 0, size - 1, size - 1);
   render();
 }
