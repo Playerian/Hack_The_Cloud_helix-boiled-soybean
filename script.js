@@ -10,7 +10,7 @@ for (let i = 0; i < size; i ++){
 }
 
 //cut
-function divide(x1, y1, x2, y2, hole){
+function divide(x1, y1, x2, y2, hole, prevDir){
     if (x2 - x1 <= 0 || y2 - y1 <= 0){
     	return;
     }
@@ -20,14 +20,16 @@ function divide(x1, y1, x2, y2, hole){
     }
     if (dir === "h"){
       let cutPoint = randomInt(y1 + 1, y2);
+      //fix cutPoint
+      if (dir === prevDir && )
       let hole = randomInt(x1, x2);
       for (let index = x1; index <= x2; index ++){
           if (index !== hole){
           cells[cutPoint][index] = "w";
           }
       }
-      divide(x1, y1, x2, cutPoint - 1);
-      divide(x1, cutPoint + 1, x2, y2);
+      divide(x1, y1, x2, cutPoint - 1, hole, "h");
+      divide(x1, cutPoint + 1, x2, y2, hole, "h");
     }else{
     	let cutPoint = randomInt(x1 + 1, x2);
       let hole = randomInt(y1, y2);
@@ -36,8 +38,8 @@ function divide(x1, y1, x2, y2, hole){
           cells[index][cutPoint] = "w";
           }
       }
-      divide(x1, y1, cutPoint - 1, y2);
-      divide(cutPoint + 1, y1, x2, y2);
+      divide(x1, y1, cutPoint - 1, y2, hole, "v");
+      divide(cutPoint + 1, y1, x2, y2, hole, "v");
     }
 }
 
