@@ -11,10 +11,10 @@ for (let i = 0; i < size; i ++){
 
 //cut
 function divide(x1, y1, x2, y2){
-    if (x2 - x1 <= 1 || y2 - y1 <= 1){
+    if (x2 - x1 <= 0 || y2 - y1 <= 0){
     	return;
     }
-	let dir = (x2 - x1) < (y2 - y1) ? "v" : "h";
+	let dir = (x2 - x1) < (y2 - y1) ? "h" : "v";
     if ((x2 - x1) === (y2 - y1)){
     	dir = randomInt(0,2) === 0 ? "v" : "h";
     }
@@ -23,7 +23,7 @@ function divide(x1, y1, x2, y2){
         let hole = randomInt(y1, y2);
         for (let index = y1; index <= y2; index ++){
             if (index !== hole){
-        		cells[index][cutPoint] = "w";
+        		cells[cutPoint][index] = "w";
             }
         }
         divide(x1, y1, x2, cutPoint - 1);
@@ -46,6 +46,7 @@ render();
 
 //append
 function render(){
+  $("#cont").empty();
   for (let i = 0; i < size; i ++){
       let $row = $("<div>").addClass("row");
       for (let j = 0; j < size; j ++){
