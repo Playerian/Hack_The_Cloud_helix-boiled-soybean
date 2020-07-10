@@ -10,7 +10,7 @@ for (let i = 0; i < size; i ++){
 }
 
 //cut
-function divide(x1, y1, x2, y2, hole, prevDir){
+function divide(x1, y1, x2, y2, hPlace, prevDir){
     if (x2 - x1 <= 0 || y2 - y1 <= 0){
     	return;
     }
@@ -21,7 +21,19 @@ function divide(x1, y1, x2, y2, hole, prevDir){
     if (dir === "h"){
       let cutPoint = randomInt(y1 + 1, y2);
       //fix cutPoint
-      if (dir === prevDir && )
+      if (dir !== prevDir && cutPoint === hPlace){
+        let possibility = [];
+        for (let ball = y1; ball <= y2; ball ++){
+          if (ball !== hPlace){
+            possibility.push(ball);
+          }
+        }
+        if (possibility.length > 0){
+          cutPoint = possibility[randomInt(0, possibility.length)];
+        }else{
+          return;
+        }
+      }
       let hole = randomInt(x1, x2);
       for (let index = x1; index <= x2; index ++){
           if (index !== hole){
@@ -32,6 +44,20 @@ function divide(x1, y1, x2, y2, hole, prevDir){
       divide(x1, cutPoint + 1, x2, y2, hole, "h");
     }else{
     	let cutPoint = randomInt(x1 + 1, x2);
+      //fix cutPoint
+      if (dir !== prevDir && cutPoint === hPlace){
+        let possibility = [];
+        for (let ball = x1; ball <= x2; ball ++){
+          if (ball !== hPlace){
+            possibility.push(ball);
+          }
+        }
+        if (possibility.length > 0){
+          cutPoint = possibility[randomInt(0, possibility.length)];
+        }else{
+          return;
+        }
+      }
       let hole = randomInt(y1, y2);
       for (let index = y1; index <= y2; index ++){
           if (index !== hole){
