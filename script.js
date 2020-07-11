@@ -35,6 +35,10 @@ class Battler{
     this.x = x;
     this.y = y;
   }
+  
+  changeAction(action){
+    
+  }
 }
 
 class Main extends Battler{
@@ -65,7 +69,14 @@ function render(){
     let oWidth = object.width;
     let oHeight = object.height;
     let currentFrame = object.currentFrame;
-    ctx.drawImage(sprite[0].img, currentFrame * oWidth, 0, oWidth, oHeight, objectX, objectY, oWidth, oHeight);
+    if (object.facingRight === 0){
+      ctx.translate(width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(sprite[0].img, currentFrame * oWidth, 0, oWidth, oHeight, width - objectX, objectY, oWidth, oHeight);
+    }else{
+      ctx.drawImage(sprite[0].img, currentFrame * oWidth, 0, oWidth, oHeight, objectX, objectY, oWidth, oHeight); 
+    }
+    ctx.restore();
   }
 }
 
@@ -75,12 +86,20 @@ function handleKeys(){
   }
   if (keyList["a"] || keyList["ArrowLeft"]){
     mainChar.jumpTo(mainChar.x - mainChar.speed, mainChar.y);
+    if (mainChar.facingRight === 1){
+      mainChar.facingRight = 0;
+      mainChar.x += mainChar.width;
+    }
   }
   if (keyList["s"] || keyList["ArrowDown"]){
     mainChar.jumpTo(mainChar.x, mainChar.y + mainChar.speed);
   }
   if (keyList["d"] || keyList["ArrowRight"]){
     mainChar.jumpTo(mainChar.x + mainChar.speed, mainChar.y);
+    if (mainChar.facingRight === 0){
+      mainChar.facingRight = 1;
+      mainChar.x -= mainChar.width;
+    }
   }
 }
 
@@ -110,8 +129,10 @@ $(document).keyup(function(e){
 
 
 let sprite = [
-  {img : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
-    totalFrame : 7 }
+  {
+    img : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
+    totalFrame : 7 
+  }
 ]
 
 sprite.forEach((v, i) => {

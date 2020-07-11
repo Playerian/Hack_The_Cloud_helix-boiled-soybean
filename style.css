@@ -39,6 +39,21 @@
   background-size: 100% 800%;
 }
 
+#tutorialControls{
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+#moving{
+  width: 50%;
+}
+
+#attacking{
+  width: 50%;
+}
+
 /* Game */
 
 #canvasContainer{
