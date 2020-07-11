@@ -30,19 +30,31 @@ class Battler{
     //import
     objectList[id] = this;
   }
-  
+    
   jumpTo(x, y){
     this.x = x;
     this.y = y;
   }
   
-  changeAction(action){
+  changeAction(action){ //animation
     if (action !== "stand" && action !== "walk" && action !== "attack"){
       return;
     }
     this.currentFrame = 0;
     this.totalFrame = Math.floor(this[`${action}Animation`].width / this.width);
     this.currentAction = action;
+  }
+  
+  behavior(){ //runs every time handlemoveframe function runs
+    
+  }
+}
+  
+class Projectile extends Battler{
+  constructor(id, hp, width, height){
+   
+    //import
+    objectList[id] = this;
   }
 }
 
@@ -86,8 +98,10 @@ function render(){
 }
 
 function handleKeys(){
+  let checkMove = false;
   if (keyList["w"] || keyList["ArrowUp"]){
     mainChar.jumpTo(mainChar.x, mainChar.y - mainChar.speed);
+    checkMove = true;
   }
   if (keyList["a"] || keyList["ArrowLeft"]){
     mainChar.jumpTo(mainChar.x - mainChar.speed, mainChar.y);
@@ -95,15 +109,25 @@ function handleKeys(){
       mainChar.facingRight = 0;
       mainChar.x += mainChar.width;
     }
+    checkMove = true;
   }
   if (keyList["s"] || keyList["ArrowDown"]){
     mainChar.jumpTo(mainChar.x, mainChar.y + mainChar.speed);
+    checkMove = true;
   }
   if (keyList["d"] || keyList["ArrowRight"]){
     mainChar.jumpTo(mainChar.x + mainChar.speed, mainChar.y);
     if (mainChar.facingRight === 0){
       mainChar.facingRight = 1;
       mainChar.x -= mainChar.width;
+    }
+    checkMove = true;
+  }
+  if (mainChar.currentAction !== "attack"){
+    if (checkMove && mainChar.currentAction !== "walk"){
+      mainChar.changeAction("walk");
+    }else{
+      mainChar.changeAction("stand");
     }
   }
 }
@@ -113,7 +137,7 @@ function handleMoveFrames(){
     let object = objectList[key];
     object.currentFrame += 1;
     if (object.currentFrame >= object.totalFrame){
-      object.currentFrame  = 0;
+      object.currentFrame = 0;
     }
   }
 }
@@ -135,7 +159,7 @@ $(document).keyup(function(e){
 
 let sprite = [
   {
-    stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
+    stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharStand.png?v=1594500675779",
     walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
     attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
   }
