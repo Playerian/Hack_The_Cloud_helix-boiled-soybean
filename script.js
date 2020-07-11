@@ -47,8 +47,14 @@ class Battler{
   }
   
   isCollide(another){
-    
+    //check x
+    //console.log(this.x)
+    if(this.x <= another.x && this.x+128 >= another.x && this.facingRight === 1){
+      console.log("collideX")
+      //check y
+    }
   }
+  
 }
   
 class Projectile extends Battler{
@@ -93,7 +99,6 @@ function render(){
     let oHeight = object.height;
     let currentFrame = object.currentFrame;
     
-    console.log(objectX)
     if (object.facingRight === 0){
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
@@ -102,7 +107,7 @@ function render(){
       ctx.restore();
       ctx.beginPath()
       ctx.strokeStyle = "red"
-      ctx.rect(objectX,objectY,128,128)
+      ctx.rect(objectX-128,objectY,128,128)
       ctx.stroke()
     
     }else{
@@ -231,11 +236,12 @@ let mainChar = new Main(0, 1, 128, 128);
 mainChar.jumpTo(50, 50);
 
 let mob = new Mobs(1,10,128,128)
+mob.jumpTo(120,120)
 
 //render loop
 let interval = setInterval(() => {
   handleKeys();
   handleMoveFrames();
-  //handlecollision?
+  mainChar.isCollide(mob)
   render();
 }, 1000 / fps);
