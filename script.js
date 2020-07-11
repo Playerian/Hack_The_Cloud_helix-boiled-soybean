@@ -45,10 +45,6 @@ class Battler{
     this.currentAction = action;
   }
   
-  behavior(){ //should run every time handlemoveframe function runs
-    
-  }
-  
   isCollide(another){
     
   }
@@ -74,6 +70,11 @@ class Mobs extends Battler{
     super(id, hp, width, height);
     this.isMainChar = false;
   }
+  
+  behavior(){ //should run every time handlemoveframe function runs
+    
+  }
+  
 }
 
 //handling functions
