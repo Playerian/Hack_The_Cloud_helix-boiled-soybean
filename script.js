@@ -53,11 +53,17 @@ class Battler {
       if (this.x - 128<= another.x && this.x + 128 >= another.x && this.y <= another.y + 128 && this.y + 128 >= another.y){
         //check y
           console.log("collide");
+          return true;
+      }else{
+        return false;
       }
     } else {
       //facing left
       if (this.x - 256 <= another.x && this.x >= another.x && this.y - 128 <= another.y && this.y + 128 >= another.y) {
           console.log("collide");
+          return true;
+      }else{
+        return false
       }
     }
   }
@@ -107,18 +113,28 @@ class Mobs extends Battler {
           //move towards player
           if (this.x < mainChar.x){
             this.jumpTo(this.x + this.speed, this.y);
+            if (this.facingRight === 0){
+              this.facingRight = 1;
+              this.x -= this.width;//change to hitbox
+            }
           }else{
             this.jumpTo(this.x - this.speed, this.y);
+            if (this.facingRight === 1){
+              this.facingRight = 0;
+              this.x += this.width;//change to hitbox
+            }
           }
           if (this.y < mainChar.y){
             this.jumpTo(this.x, this.y + this.speed);
           }else{
-            this.jumpTo(this.x, this.y + this.speed);
+            this.jumpTo(this.x, this.y - this.speed);
           }
         }
       }
       if (this.act === "attack"){
-        this.changeAction("attack");
+        if (this.currentAction !== "attack"){
+          this.changeAction("attack");
+        }
       }
       //resolve act
       
@@ -199,7 +215,7 @@ function render() {
       ctx.stroke();
     }
 
-    //ctx.restore();
+    ctx.restore();
   }
 }
 
@@ -213,7 +229,7 @@ function handleKeys() {
     mainChar.jumpTo(mainChar.x - mainChar.speed, mainChar.y);
     if (mainChar.facingRight === 1) {
       mainChar.facingRight = 0;
-      mainChar.x += mainChar.width;
+      mainChar.x += mainChar.width;//change to hitbox
     }
     checkMove = true;
   }
@@ -225,7 +241,7 @@ function handleKeys() {
     mainChar.jumpTo(mainChar.x + mainChar.speed, mainChar.y);
     if (mainChar.facingRight === 0) {
       mainChar.facingRight = 1;
-      mainChar.x -= mainChar.width;
+      mainChar.x -= mainChar.width;//change to hitbox
     }
     checkMove = true;
   }
@@ -290,7 +306,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [] //[[offset x, offset y, width, height],[]]
+    hitBox: [[],[]] //[[offset x, offset y, width, height],[]]
   },
 
   {
@@ -320,6 +336,7 @@ mainChar.jumpTo(50, 50);
 
 let mob = new Mobs(1, 10, 128, 128);
 mob.jumpTo(120, 120);
+mob.speed = 2
 
 //render loop
 let interval = setInterval(() => {
