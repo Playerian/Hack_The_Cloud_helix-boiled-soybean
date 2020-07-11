@@ -15,16 +15,39 @@
 
 #start{
   margin-top: 5%;
-  height: 20%;
+  background-color: green;
+  color: white;
+  font-size: 200%;
+}
+
+#start:hover{
+  background-color: red;
+  color: blue;
 }
 
 #tutorial{
   margin-top: 10%;
   hight: 20%;
+  background-color: green;
+  color: white;
+  font-size: 200%;
+}
+
+#tutorial:hover{
+  background-color: red;
+  color: blue;
 }
 
 #quit{
   margin-top: 10%;
+  background-color: green;
+  color: white;
+  font-size: 200%;
+}
+
+#quit:hover{
+  background-color: red;
+  color: blue;
 }
 
 #homeBody{
@@ -33,6 +56,19 @@
   background-size: 100% 160%;
 }
 
+a:link{
+  color: white;
+  text-decoration: none;
+}
+
+a:visited{
+  color: white;
+  text-decoration: none;
+}
+
+a:hover{
+  color: blue;
+}
 /* Tutorial */
 
 #tutorialBody{

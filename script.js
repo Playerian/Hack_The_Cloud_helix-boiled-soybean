@@ -48,17 +48,19 @@ class Battler{
   
   isCollide(another){
     //check x
-    //console.log(this.x)
     if(this.facingRight === 1){
-      // if(this.x <= another.x+128 && this.x+128 >= another.x){
-      //   console.log("collideX")
-      //   //check y
-      // }
-    }else{//facing left
       if(this.x <= another.x+128 && this.x+128 >= another.x){
-        console.log("collideX")
+        //check y
+        if(this.y <= another.y+128 && this.y+128 >= another.y){
+          console.log("collide")
+        }
       }
-
+    }else{//facing left
+      if(this.x-128 <= another.x+128 && this.x >= another.x){
+        if(this.y <= another.y+128 && this.y+128 >= another.y){
+          console.log("collide")
+        }
+      }
     }
   }
   
