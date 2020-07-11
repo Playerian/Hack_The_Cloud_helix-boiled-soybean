@@ -48,6 +48,10 @@ class Battler{
   behavior(){ //runs every time handlemoveframe function runs
     
   }
+  
+  isCollide(another){
+    
+  }
 }
   
 class Projectile extends Battler{
@@ -149,6 +153,9 @@ function handleMoveFrames(){
       if (object.currentAction === "attack"){
         object.changeAction("walk");
       }
+    }
+    if (object.behavior){
+      object.behavior();
     }
   }
 }
