@@ -4,8 +4,26 @@
   border: solid 1px;
 }
 
-.begin{
+#gameTitle{
   display: flex;
   justify-content: center;
+}
+
+.begin{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   flex-direction: column;
+}
+
+#start{
+  margin-top: 10%;
+}
+
+#tutorial{
+  margin-top: 25%;
+}
+
+#quit{
+  margin-top: 25%;
 }

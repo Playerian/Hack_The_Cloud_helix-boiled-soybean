@@ -10,7 +10,13 @@ let interval = setInterval(() => {
 }, 1000 / fps);
 
 function render(){
+  //empty
   
+  //render
+  for (let key in objectList){
+    let object = objectList[key];
+  }
+  ctx.drawImage()
 }
 
 
@@ -24,15 +30,20 @@ function render(){
 
 
 
+let sprite = [
+  {img : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
+    totalFrame : 6 }//counting from 0
+]
 
+sprite.forEach((v) => {
+  let src = v;
+});
 
+let char = new Battler(0, 1, 128, 128);
+char.x = 50;
+char.y = 50;
 
-
-
-
-
-
-class battler{
+class Battler{
   constructor(id, hp, width, height){
     this.id = id;
     this.x = 0;
@@ -46,5 +57,12 @@ class battler{
     this.standAnimation = [];
     this.walkAnimation = [];
     this.attackAnimation = [];
+    //import
+    objectList[id] = this;
+  }
+  
+  jumpTo(x, y){
+    this.x = x;
+    this.y = y;
   }
 }
