@@ -21,12 +21,12 @@ class Battler{
     this.hp = hp;
     this.facingRight = 1;
     this.currentFrame = 0;
-    this.totalFrame = sprite[id].totalFrame;
+    this.totalFrame = sprite[id].totalFrame || 1;
     //stand, walk, attack
     this.currentAction = "stand";
-    this.standAnimation = [];
-    this.walkAnimation = [];
-    this.attackAnimation = [];
+    this.standAnimation = sprite[id].stand;
+    this.walkAnimation = sprite[id].walk;
+    this.attackAnimation = sprite[id].attack;
     //import
     objectList[id] = this;
   }
@@ -37,7 +37,12 @@ class Battler{
   }
   
   changeAction(action){
-    
+    if (action !== "stand" && action !== "walk" && action !== "attack"){
+      return;
+    }
+    this.currentFrame = 0;
+    this.totalFrame = Math.floor(this[`${action}Animation`].width / this.width);
+    this.currentAction = action;
   }
 }
 
@@ -72,9 +77,9 @@ function render(){
     if (object.facingRight === 0){
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
-      ctx.drawImage(sprite[0].img, currentFrame * oWidth, 0, oWidth, oHeight, width - objectX, objectY, oWidth, oHeight);
+      ctx.drawImage(object[`${object.currentAction}Animation`], currentFrame * oWidth, 0, oWidth, oHeight, width - objectX, objectY, oWidth, oHeight);
     }else{
-      ctx.drawImage(sprite[0].img, currentFrame * oWidth, 0, oWidth, oHeight, objectX, objectY, oWidth, oHeight); 
+      ctx.drawImage(object[`${object.currentAction}Animation`], currentFrame * oWidth, 0, oWidth, oHeight, objectX, objectY, oWidth, oHeight); 
     }
     ctx.restore();
   }
@@ -130,15 +135,19 @@ $(document).keyup(function(e){
 
 let sprite = [
   {
-    img : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
-    totalFrame : 7 
+    stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
+    walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
+    attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
   }
 ]
 
 sprite.forEach((v, i) => {
-  let img = new Image();
-  img.src = v.img;
-  sprite[i].img = img;
+  for (let keys in v){
+    let href = v[keys];
+    let img = new Image();
+    img.src = href;
+    sprite[i][keys] = img;
+  }
 });
 
 
