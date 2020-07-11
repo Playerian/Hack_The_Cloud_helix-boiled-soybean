@@ -56,8 +56,8 @@ class Battler{
         }
       }
     }else{//facing left
-      if(this.x-128 <= another.x+128 && this.x >= another.x){
-        if(this.y <= another.y+128 && this.y+128 >= another.y){
+      if(this.x-256 <= another.x && this.x >= another.x){
+        if(this.y-128 <= another.y && this.y+128 >= another.y){
           console.log("collide")
         }
       }
@@ -85,6 +85,7 @@ class Mobs extends Battler{
   constructor(id, hp, width, height){
     super(id, hp, width, height);
     this.isMainChar = false;
+    this.AI = [];
   }
   
   behavior(){ //should run every time handlemoveframe function runs
@@ -219,7 +220,7 @@ let sprite = [
     stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [],//[offset x, offset y, width, height]
+    hitBox: [],//[[offset x, offset y, width, height],[]]
   },
   
   {//turrent
