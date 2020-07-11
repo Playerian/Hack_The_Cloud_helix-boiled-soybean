@@ -7,7 +7,9 @@ c.width = width;
 c.height = height;
 
 let objectList = {};
+let keyList = {};
 
+//constructors
 class Battler{
   constructor(id, hp, width, height){
     this.id = id;
@@ -15,7 +17,9 @@ class Battler{
     this.y = 0;
     this.width = width;
     this.height = height;
+    this.speed = 5;
     this.hp = hp;
+    this.facingRight = 1;
     this.currentFrame = 0;
     this.totalFrame = sprite[id].totalFrame;
     //stand, walk, attack
@@ -33,9 +37,26 @@ class Battler{
   }
 }
 
+class Main extends Battler{
+  constructor(id, hp, width, height){
+    super(id, hp, width, height);
+    this.isMainChar = true;
+  }
+}
+
+class Mobs extends Battler{
+  constructor(id, hp, width, height){
+    super(id, hp, width, height);
+    this.isMainChar = false;
+  }
+}
+
+//handling functions
 function render(){
   //empty
   ctx.clearRect(0, 0, width, height);
+  //saving
+  ctx.save();
   //render
   for (let key in objectList){
     let object = objectList[key];
@@ -49,6 +70,18 @@ function render(){
 }
 
 function handleKeys(){
+  if (keyList["w"] || keyList["ArrowUp"]){
+    mainChar.jumpTo(mainChar.x, mainChar.y - mainChar.speed);
+  }
+  if (keyList["a"] || keyList["ArrowLeft"]){
+    mainChar.jumpTo(mainChar.x - mainChar.speed, mainChar.y);
+  }
+  if (keyList["s"] || keyList["ArrowDown"]){
+    mainChar.jumpTo(mainChar.x, mainChar.y + mainChar.speed);
+  }
+  if (keyList["d"] || keyList["ArrowRight"]){
+    mainChar.jumpTo(mainChar.x + mainChar.speed, mainChar.y);
+  }
 }
 
 function handleMoveFrames(){
@@ -61,6 +94,14 @@ function handleMoveFrames(){
   }
 }
 
+//keyboard events
+$(document).keydown(function(e){
+  keyList[e.key] = true;
+});
+
+$(document).keyup(function(e){
+  keyList[e.key] = false;
+});
 
 
 
@@ -80,9 +121,8 @@ sprite.forEach((v, i) => {
 });
 
 
-let char = new Battler(0, 1, 128, 128);
-char.x = 50;
-char.y = 50;
+let mainChar = new Main(0, 1, 128, 128);
+mainChar.jumpTo(50, 50);
 
 //render loop
 let interval = setInterval(() => {
