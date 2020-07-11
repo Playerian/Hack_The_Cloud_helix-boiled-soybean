@@ -1,3 +1,4 @@
+/*  */
 #canvasContainer{
   border: solid 1px;
   display: inline-block;
@@ -17,19 +18,19 @@
 }
 
 #start{
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 #tutorial{
-  margin-top: 20%;
+  margin-top: 10%;
 }
 
 #quit{
-  margin-top: 20%;
+  margin-top: 10%;
 }
 
 #homeBody{
   background-image: url("https://i.imgur.com/4wGRzOS.png");
   background-repeat: no-repeat;
-  background-size: 120%;
+  background-size: 100% 160%;
 }
