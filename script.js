@@ -50,18 +50,14 @@ class Battler {
   isCollide(another) {
     //check x
     if (this.facingRight === 1) {
-      if (this.x <= another.x + 128 && this.x + 128 >= another.x) {
+      if (this.x - 128<= another.x && this.x + 128 >= another.x && this.y <= another.y + 128 && this.y + 128 >= another.y){
         //check y
-        if (this.y <= another.y + 128 && this.y + 128 >= another.y) {
           console.log("collide");
-        }
       }
     } else {
       //facing left
-      if (this.x - 256 <= another.x && this.x >= another.x) {
-        if (this.y - 128 <= another.y && this.y + 128 >= another.y) {
+      if (this.x - 256 <= another.x && this.x >= another.x && this.y - 128 <= another.y && this.y + 128 >= another.y) {
           console.log("collide");
-        }
       }
     }
   }
@@ -87,7 +83,7 @@ class Mobs extends Battler {
     this.isMainChar = false;
     this.AI = {
       initial: ["toPlayer"],
-      repeat: ["attack"]
+      repeat: ["attack", "toPlayer"]
     };
     this.act;
   }
@@ -103,10 +99,27 @@ class Mobs extends Battler {
       //act
       //toPlayer
       if (this.act === "toPlayer"){
-        //check if collide
-        if (this.collide)
+        //check if collide with main
+        if (this.isCollide(mainChar)){
+          //resolve
+          this.resolveAct("toPlayer");
+        }else{
+          //move towards player
+          if (this.x < mainChar.x){
+            this.jumpTo(this.x + this.speed, this.y);
+          }else{
+            this.jumpTo(this.x - this.speed, this.y);
+          }
+          if (this.y < mainChar.y){
+            this.jumpTo(this.x, this.y + this.speed);
+          }else{
+            this.jumpTo(this.x, this.y + this.speed);
+          }
+        }
       }
-      
+      if (this.act === "attack"){
+        this.changeAction("attack");
+      }
       //resolve act
       
     } else {
@@ -241,6 +254,10 @@ function handleMoveFrames() {
       //check if attacking
       if (object.currentAction === "attack") {
         object.changeAction("walk");
+        //check if a mob
+        if (object.act === "attack"){
+          object.resolveAct("attack");
+        }
       }
     }
     if (object.behavior) {
