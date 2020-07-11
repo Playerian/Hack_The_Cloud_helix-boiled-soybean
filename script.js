@@ -123,9 +123,16 @@ function handleKeys(){
     }
     checkMove = true;
   }
+  if (keyList["j"]){
+    if (mainChar.currentAction !== "attack"){
+      mainChar.changeAction("attack");
+    }
+  }
   if (mainChar.currentAction !== "attack"){
-    if (checkMove && mainChar.currentAction !== "walk"){
-      mainChar.changeAction("walk");
+    if (checkMove){
+      if (mainChar.currentAction !== "walk"){
+        mainChar.changeAction("walk");
+      }
     }else{
       mainChar.changeAction("stand");
     }
@@ -138,6 +145,10 @@ function handleMoveFrames(){
     object.currentFrame += 1;
     if (object.currentFrame >= object.totalFrame){
       object.currentFrame = 0;
+      //check if attacking
+      if (object.currentAction === "attack"){
+        object.changeAction("walk");
+      }
     }
   }
 }
