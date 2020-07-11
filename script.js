@@ -182,11 +182,17 @@ let sprite = [
   //   attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharAtk1Sprite.png?v=1594495768907",
   // },
   
-   {
+   {//guy
     stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-  }
+  },
+  
+  {//turrent
+    stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
+    walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
+    attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384",
+  }, 
 ]
 
 sprite.forEach((v, i) => {
@@ -201,6 +207,8 @@ sprite.forEach((v, i) => {
 
 let mainChar = new Main(0, 1, 128, 128);
 mainChar.jumpTo(50, 50);
+
+let mob = new Mobs(1,10,128,128)
 
 //render loop
 let interval = setInterval(() => {
