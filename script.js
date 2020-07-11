@@ -21,6 +21,7 @@ class Battler{
     this.hp = hp;
     this.facingRight = 1;
     this.currentFrame = 0;
+    this.hitBox = sprite[id].hitBox;
     this.totalFrame = sprite[id].totalFrame || 1;
     //stand, walk, attack
     this.currentAction = "stand";
@@ -91,14 +92,30 @@ function render(){
     let oWidth = object.width;
     let oHeight = object.height;
     let currentFrame = object.currentFrame;
+    
+    
     if (object.facingRight === 0){
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(object[`${object.currentAction}Animation`], currentFrame * oWidth, 0, oWidth, oHeight, width - objectX, objectY, oWidth, oHeight);
+      
+      ctx.restore();
+      ctx.beginPath()
+      ctx.strokeStyle = "red"
+      ctx.rect(objectX-128,objectY,128,128)
+      ctx.stroke()
+    
     }else{
       ctx.drawImage(object[`${object.currentAction}Animation`], currentFrame * oWidth, 0, oWidth, oHeight, objectX, objectY, oWidth, oHeight); 
+    
+      ctx.beginPath()
+      ctx.strokeStyle = "red"
+      ctx.rect(objectX,objectY,128,128)
+      ctx.stroke()
     }
+     
     ctx.restore();
+
   }
 }
 
@@ -186,7 +203,8 @@ let sprite = [
    {//guy
     stand: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     walk: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
-    attack : "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
+    attack: "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
+    hitBox: [],//[offset x, offset y, width, height]
   },
   
   {//turrent
@@ -198,10 +216,12 @@ let sprite = [
 
 sprite.forEach((v, i) => {
   for (let keys in v){
-    let href = v[keys];
-    let img = new Image();
-    img.src = href;
-    sprite[i][keys] = img;
+    if (keys === "stand" || keys === "walk" || keys === "attack"){
+      let href = v[keys];
+      let img = new Image();
+      img.src = href;
+      sprite[i][keys] = img;
+    }
   }
 });
 
