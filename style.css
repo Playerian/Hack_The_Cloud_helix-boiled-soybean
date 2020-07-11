@@ -90,7 +90,8 @@ a:hover{
 }
 
 #attacking{
-  width: 50%;
+  width: 20%;
+  margin-right: 15%;
 }
 
 #tutorialPage{
@@ -99,7 +100,12 @@ a:hover{
 }
 
 .placeholder{
-  width: 30%;
+  width: 25%;
+}
+
+#updown{
+  width: 90%;
+  margin-top: 40%;
 }
 
 .titleCards{
