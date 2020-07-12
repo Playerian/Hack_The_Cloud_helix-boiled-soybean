@@ -196,7 +196,12 @@ function render() {
         oWidth,
         oHeight
       );
-     
+
+      ctx.restore();
+      ctx.beginPath();
+      ctx.strokeStyle = "red";
+      ctx.rect(objectX, objectY, this.hitBox[0][0]+this.hitBox[0][2], this.hitBox[0][1]+this.hitBox[0][3]);//change to hitbox
+      ctx.stroke();
     } else {
       ctx.drawImage(
         object[`${object.currentAction}Animation`],
@@ -208,7 +213,12 @@ function render() {
         objectY,
         oWidth,
         oHeight
-      );
+      );    
+      
+      ctx.beginPath();
+      ctx.strokeStyle = "red";
+      ctx.rect(objectX, objectY, 128, 128);//change to hitbox
+      ctx.stroke();
     }
 
     ctx.restore();
@@ -273,7 +283,7 @@ function handleMoveFrames() {
       }
     }
     if (object.behavior) {
-      object.behavior();
+      //object.behavior();
     }
   }
 }
@@ -356,8 +366,9 @@ function play(){
   }, 1000 / fps);
 }
 
-$('body').keydown(function(event){
-    if(event.keycode === "27"){
-        pause();
-    };
+$(document).keypress(function(e) { 
+    if (e.keycode === 27){
+      pause();
+      alert("HOI")
+    }
 });
