@@ -312,7 +312,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [[-100,25,80,80],[28,25,80,80]] //[[offset x, offset y, width, height],[]]
+    hitBox: [[-109,16,85,109],[25,16,85,109]] //[[offset x, offset y, width, height],[]]
   },
 
   {
@@ -323,7 +323,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384",
-    hitBox: [[-128,0,128,128],[0,0,128,128]]
+    hitBox: [[-116, 25,81,97],[18, 25, 81, 97]]
   }
 ];
 
