@@ -18,6 +18,7 @@ class Battler {
     this.y = 0;
     this.width = width;
     this.height = height;
+    this.damage = 10;
     this.speed = 5;
     this.hp = hp;
     this.maxhp = hp;
@@ -125,7 +126,10 @@ class Mobs extends Battler {
   
   onAttack(){
     //fill whatever
-    
+    //damage player if colliding
+    if (this.isCollide(mainChar)){
+      mainChar
+    }
   }
 
   behavior() {
@@ -313,7 +317,7 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      let bullet = new Projectile(2,25,128,128, 10, mainChar.facingRight, 10)
+      let bullet = new Projectile(2,25,128,128, 10, mainChar.facingRight, mainChar.damage)
       bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y+10)
       
     }
@@ -426,7 +430,7 @@ sprite.forEach((v, i) => {
   }
 });
 
-let mainChar = new Main(0, 1, 128, 128);
+let mainChar = new Main(0, 100, 128, 128);
 mainChar.jumpTo(50, 50);
 
 let mob = new Mobs(1, 100, 128, 128);
