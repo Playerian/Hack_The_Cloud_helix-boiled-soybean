@@ -237,6 +237,7 @@ class Mobs extends Battler {
       if (this.act === "toPlayerY"){
         if (this.y - mainChar.y <= this.hitBox[0][3]){
           this.resolveAct("toPlayerY");
+          console.log("a")
         }else{
           if (this.y < mainChar.y){
             this.jumpTo(this.x, this.y + this.speed);
@@ -311,13 +312,6 @@ class Mobs extends Battler {
     if (this.act === act){
       this.act = undefined;
     }
-  }
-}
-
-class Boss extends Mobs{
-  constructor(id, hp, width, height, stage) {
-    super(id, hp, width, height);
-    this.isMainChar = false;
   }
 }
 
@@ -581,6 +575,7 @@ function handleMoveFrames() {
             if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
               v.gainHp(-object.damage);
               object.gainHp(-233); //kills bullet
+              return;
             }
           }
         })
@@ -696,13 +691,16 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(1, 100, 128, 128, stage);
+  //let mob = new Mobs(1, 100, 128, 128, stage);
+    let mob = new Mobs(3, 100, 128, 128, stage)
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
   mob.AI = {
-    initial: [],
-    repeat: ["toPlayer", "wait250", "attack", "wait1000"]
+    // initial: [],
+    // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
+    initial: ["facePlayer"],
+    repeat: ["toPlayerY","rangedAttack10", "wait1000"]
   }
   render();
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
@@ -713,6 +711,7 @@ let stage1 = new Stage((stage) => {
   //stage end
   dialogueController.onDialogueFinish = () => {
     currentStage = stage2;
+    changeBackground();
     stage2.startStage();
   };
   dialogueController.queue.push(new Dialogue("BOOM! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
@@ -740,10 +739,10 @@ let stage2 = new Stage((stage) => {
   //stage end
   dialogueController.onDialogueFinish = () => {
     currentStage = stage3;
+    changeBackground();
     stage3.startStage();
   };
-  dialogueController.queue.push(new Dialogue("BOOM! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
-  dialogueController.queue.push(new Dialogue("I am going forward! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("I'm going deeper (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 });
 
@@ -754,23 +753,27 @@ let stage3 = new Stage((stage) => {
   mainChar.jumpTo(50, 250);
   //2 range 3 melee
   for (let i = 0; i < 3; i ++){
-    let mob = new Mobs(1, 100, 128, 128, stage);
-    mob.jumpTo(700, i * 150 + 150);
+    let mob = new Mobs(1, 200, 128, 128, stage);
+    mob.jumpTo(700, i * 150 + 50);
+    mob.speed = 2;
     mob.AI ={
-      initial: [],
+      initial: ["toPlayerX"],
       repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     }
   }
   for (let i = 0; i < 2; i ++){
-    let mob = new Mobs(4, 100, 128, 128, stage);
+    let mob = new Mobs(4, 33, 128, 128, stage);
     mob.jumpTo(900, i * 200 + 100);
     mob.AI ={
       initial: ["facePlayer"],
       repeat: ["rangedAttack60", "wait1000"]
     }
   }
+  
+
+  
   render();
-  dialogueController.queue.push(new Dialogue("Another mob? I am not afraid!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("That's a lot!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
@@ -836,12 +839,22 @@ $(document).keyup(function(e) {
 
 let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145249/4779a7547f510ddb98a89edda4df3c78.png)", 
                        "url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145257/360a9179134324db09f345ef1c8f98b2-700x400.png)",
-                       "url(https://c4.wallpaperflare.com/wallpaper/865/102/489/video-games-nature-river-fantasy-art-wallpaper-preview.jpg)"];
+                       "url(https://c4.wallpaperflare.com/wallpaper/865/102/489/video-games-nature-river-fantasy-art-wallpaper-preview.jpg)",
+                       "url(https://image.freepik.com/free-vector/medieval-castle-throne-room-ballroom-interior-with-knights-armor-both-sides-king_33099-892.jpg)",
+                       ];
+
 
 function changeBackground(){
   if (currentStage === stage1){
     c.style.backgroundImage = backgroundImages[0];
   } else if (currentStage === stage2){
     c.style.backgroundImage = backgroundImages[1];
+  } else if (currentStage === stage3){
+    c.style.backgroundImage = backgroundImages[2];
+  // } else if (currentStage === stage4){
+  //   c.style.backgroundImage = backgroundImages[3];
+  // }
   }
 }
+
+changeBackground();
