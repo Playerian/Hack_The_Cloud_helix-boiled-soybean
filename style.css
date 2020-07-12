@@ -129,7 +129,7 @@ a:hover{
 #quit{
   background-color: green;
   color: white;
-  font-size: 200%;
+  font-size: 150%;
 }
 
 #quit:hover{
@@ -141,7 +141,7 @@ a:hover{
 #resume{
   background-color: green;
   color: white;
-  font-size: 200%;
+  font-size: 150%;
 }
 
 #resume:hover{
@@ -150,15 +150,37 @@ a:hover{
   cursor: pointer;
 }
 
+#restart{
+  background-color: green;
+  color: white;
+  font-size: 150%;
+}
+
+#restart:hover{
+  background-color: red;
+  color: blue;
+  cursor: pointer;
+}
+
 #UI{
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
 }
 
 /*Game Dialogue  */
 .dialogueContainer{
   border: solid;
   position: relative;
+  display: flex;
+}
+
+.dialogueImg{
+  width: 128px;
+}
+
+.dialogueText{
+  flex-grow: 1;
+  border-left: solid
 }
 
 /* End */

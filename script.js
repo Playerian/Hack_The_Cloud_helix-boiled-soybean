@@ -213,11 +213,18 @@ class DialogueController{
   constructor(){
     this.queue = [];
     this.showingDialogue = false;
+    //container
     let $container = $("<div>").addClass("dialogueContainer");
     this.setContainer($container);
-    $("#canvasContainer").append()
+    $("#canvasContainer").append($container);
     $container.hide();
     this.container = $container;
+    //img
+    let $img = $("<div>").addClass("dialogueImg");
+    $container.append($img);
+    //text
+    let $text = $("<div>").addClass("dialogueText");
+    $container.append($text);
   }
   
   setContainer(container){
@@ -228,6 +235,13 @@ class DialogueController{
   renderDialogue(){
     pause();
     this.showingDialogue = true;
+    let dialo = this.q//render dialogue
+  let control = dialogueController;
+  if (control.showingDialogue){
+    control.setContainer(control.container);
+    let dialogue = control.queue[0];
+    
+  }
   }
   
   resolveDialogue(){
@@ -244,9 +258,7 @@ class DialogueController{
 class Dialogue{
   constructor(text, img, isTop){
     this.text = text;
-    let image = new Image();
-    image.src = img;
-    this.img = image;
+    this.img = img;
     this.isTop = isTop;
   }
 }
@@ -330,11 +342,6 @@ function render() {
         ctx.fillRect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1] - 20, object.hitBox[1][2] * (object.hp / object.maxhp), 10);
       }
     }
-  }
-  //render dialogue
-  let control = dialogueController;
-  if (control.showingDialogue){
-    control.setContainer(control.container);
   }
 }
 
@@ -487,7 +494,11 @@ let mob = new Mobs(1, 100, 128, 128);
 mob.jumpTo(800, 50);
 mob.speed = 2
 
+loop();
+
 let dialogueController = new DialogueController();
+dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FcharStand.png?v=1594500675779", false));
+dialogueController.renderDialogue();
 
 //render loop
 let interval = setInterval(loop, 1000 / fps);
