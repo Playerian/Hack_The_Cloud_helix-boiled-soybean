@@ -135,6 +135,10 @@ class Battler {
       }
       this.destroySelf();
     }
+    
+    if(this.changeAI === true){
+      
+    }
   }
   
   destroySelf(){
@@ -352,6 +356,8 @@ class Boss extends Mobs{
   constructor(id, hp, width, height, stage) {
     super(id, hp, width, height);
     this.changeAI = true
+    this.newAI ={}
+    this.
   }
 }
 
