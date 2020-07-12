@@ -288,7 +288,7 @@ function handleKeys() {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
       let bullet = new Projectile(2,25,128,128, 10, mainChar.facingRight)
-      bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y)
+      bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y+10)
       
     }
   }
