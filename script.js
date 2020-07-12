@@ -9,7 +9,9 @@ c.height = height;
 let objectList = [];
 let keyList = {};
 
-$("#UI").hide();
+// $("#restart").hide();
+// $("#resume").hide();
+// $("#quit").hide();
 
 //constructors
 class Battler {
@@ -80,6 +82,8 @@ class Battler {
     this.hp += value;
     if (this.hp <= 0){
       this.destroySelf();
+      $("#restart").show();
+      $("#quit").show();
     }
   }
   
@@ -227,6 +231,7 @@ class DialogueController{
   constructor(){
     this.queue = [];
     this.showingDialogue = false;
+    this.onDialogueFinish;
     //container
     let $container = $("<div>").addClass("dialogueContainer");
     this.setContainer($container);
@@ -260,7 +265,6 @@ class DialogueController{
   
   renderDialogue(){
     pause();
-    $("#UI").hide();
     this.showingDialogue = true;
     this.container.show();
     let dialo = this.queue[0];
@@ -275,6 +279,10 @@ class DialogueController{
     if (this.queue.length > 0){
       this.renderDialogue();
     }else{
+      if (this.onDialogueFinish){
+        this.onDialogueFinish();
+        this.onDialogueFinish = undefined;
+      }
       play();
       this.showingDialogue = false;
       this.container.hide();
@@ -472,9 +480,11 @@ function handleMoveFrames() {
     
     if(object.id === 2){
       objectList.forEach((v,i)=>{
-        if(v !== undefined && v.id === 1 && object.isCollide(v)){
-          v.gainHp(-object.damage);
-          object.gainHp(-233);
+        if(v !== undefined && object.isCollide(v)){
+          if(v.id === 1 || v.id === 3 ){ //check id to see if is enemy
+            v.gainHp(-object.damage);
+            object.gainHp(-233); //kills bullet
+          }
         }
       })
     }
@@ -541,7 +551,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredFire.png?v=1594585825786",
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
-    hitBox: [[-0, 0,100,10],[0, 0, 100, 00]] //need changing
+    hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] //need changing
   }
 ];
 
@@ -569,13 +579,18 @@ let stage1 = new Stage((stage) => {
   mob.jumpTo(800, 250);
   mob.speed = 2;
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "", true));
-  dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
-  dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
+  dialogueController.queue.push(new Dialogue("Show me where the prince is!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
-  currentStage = stage2;
-  stage2.startStage();
+  dialogueController.onDialogueFinish = () => {
+    currentStage = stage2;
+    stage2.startStage();
+  };
+  dialogueController.queue.push(new Dialogue("BOOM!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
+  dialogueController.queue.push(new Dialogue("I am going forward!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.renderDialogue();
 });
 
 let stage2 = new Stage((stage) => {
@@ -585,7 +600,7 @@ let stage2 = new Stage((stage) => {
   let mob = new Mobs(1, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
-  dialogueController.queue.push(new Dialogue("yolo, another one", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("Another mob? I am not afraid!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
@@ -619,11 +634,15 @@ function loop(){
 
 function pause(){
   clearInterval(interval);
-  $("#UI").show();
+  $("#resume").show();
+  $("#restart").show();
+  $("#quit").show();
 }
 
 function play(){
-  $("#UI").hide();
+  $("#resume").hide();
+  $("#restart").hide();
+  $("#quit").hide();
   interval = setInterval(loop, 1000 / fps);
 }
 
