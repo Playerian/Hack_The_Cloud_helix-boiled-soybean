@@ -124,6 +124,7 @@ class Battler {
   }
   
   gainHp(value){
+    //if (this.changeAI)
     this.hp += value;
     if (this.hp <= 0){
       if (this === mainChar){
@@ -190,6 +191,7 @@ class Mobs extends Battler {
       this.stage = stage;
       stage.newEnemy(this);
     }
+    this.changeAI = false
   }
   
   onAttack(){
@@ -343,6 +345,13 @@ class Mobs extends Battler {
     if (this.act === act){
       this.act = undefined;
     }
+  }
+}
+
+class Boss extends Mobs{
+  constructor(id, hp, width, height, stage) {
+    super(id, hp, width, height);
+    this.changeAI = true
   }
 }
 
@@ -688,7 +697,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredFire.png?v=1594585825786",
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
-    hitBox: [[-119, 2,102,50],[17, 2, 102, 124]] 
+    hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] 
   },
   {
   //trashcan
