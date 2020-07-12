@@ -215,13 +215,16 @@ class DialogueController{
   }
   
   renderDialogue(){
-    
+    pause();
+    this.showingDialogue = true;
   }
   
   resolveDialogue(){
     this.queue.shift();
     if (this.queue.length > 0){
       this.renderDialogue();
+    }else{
+      play();
     }
   }
 }
@@ -240,7 +243,7 @@ class Dialogue{
 function render() {
   //empty
   ctx.clearRect(0, 0, width, height);
-  //render
+  //render objects
   for (let key in objectList) {
     if (!objectList[key]){
       continue;
@@ -316,6 +319,8 @@ function render() {
       }
     }
   }
+  //render dialogue
+  
 }
 
 function handleKeys() {
@@ -466,6 +471,8 @@ mainChar.jumpTo(50, 50);
 let mob = new Mobs(1, 100, 128, 128);
 mob.jumpTo(800, 50);
 mob.speed = 2
+
+let dialogueController = new DialogueController();
 
 //render loop
 let interval = setInterval(loop, 1000 / fps);
