@@ -38,19 +38,6 @@
   color: blue;
 }
 
-#quit{
-  margin-top: 10%;
-  background-color: green;
-  color: white;
-  font-size: 200%;
-}
-
-#quit:hover{
-  background-color: red;
-  color: blue;
-  cursor: pointer;
-}
-
 #homeBody{
   background-image: url("https://srv4.imgonline.com.ua/result_img/imgonline-com-ua-twotoone-CuLCQk5O2m6m.jpg");
   background-repeat: no-repeat;
@@ -70,6 +57,7 @@ a:visited{
 a:hover{
   color: blue;
 }
+
 /* Tutorial */
 
 #tutorialBody{
@@ -129,8 +117,39 @@ a:hover{
   border: solid 1px;
   display: inline-block;
   width: 50%;
-  margin-top: 6%;
+  margin-top: 7%;
 }
 
+#quit{
+  margin-top: 10%;
+  background-color: green;
+  color: white;
+  font-size: 200%;
+}
+
+#quit:hover{
+  background-color: red;
+  color: blue;
+  cursor: pointer;
+}
+
+#resume{
+  margin-top: 10%;
+  background-color: green;
+  color: white;
+  font-size: 200%;
+}
+
+#resume:hover{
+  background-color: red;
+  color: blue;
+  cursor: pointer;
+}
+
+#UI{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 /* End */
 
