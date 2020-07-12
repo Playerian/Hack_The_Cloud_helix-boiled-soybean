@@ -9,9 +9,13 @@ c.height = height;
 let objectList = [];
 let keyList = {};
 
+// UI for pause
+$("#pause").hide();
 $("#restart").hide();
 $("#resume").hide();
 $("#quit").hide();
+
+$("#gameOver").hide();
 
 //constructors
 class Battler {
@@ -82,6 +86,7 @@ class Battler {
     this.hp += value;
     if (this.hp <= 0){
       if (this === mainChar){
+        $("#gameOver").show();
         $("#restart").show();
         $("#quit").show();
       }
@@ -128,8 +133,8 @@ class Mobs extends Battler {
     super(id, hp, width, height);
     this.isMainChar = false;
     this.AI = {
-      initial: ["toPlayer"],
-      repeat: ["attack", "wait1000", "toPlayer", "wait250"]
+      initial: ["toPlayerX", "toPlayerY"],
+      repeat: ["attack", "rangedAttack", "wait1000", "toPlayer", "wait250"]
     };
     this.act;
     if (stage){
@@ -180,6 +185,39 @@ class Mobs extends Battler {
         }
         return;
       }
+      if (this.act === "toPlayerX"){
+        if (this.x - mainChar.x <= this.hitBox[this.facingRight][2]){
+          this.resolveAct("toPlayerX");
+        }else{
+          //move towards player
+          if (this.x < mainChar.x){
+            this.jumpTo(this.x + this.speed, this.y);
+            if (this.facingRight === 0){
+              this.facingRight = 1;
+              this.x -= this.width;//change to hitbox
+            }
+          }else{
+            this.jumpTo(this.x - this.speed, this.y);
+            if (this.facingRight === 1){
+              this.facingRight = 0;
+              this.x += this.width;//change to hitbox
+            }
+          }
+        }
+        return;
+      }
+      if (this.act === "toPlayerY"){
+        if (this.y - mainChar.y <= this.hitBox[0][3]){
+          this.resolveAct("toPlayerY");
+        }else{
+          if (this.y < mainChar.y){
+            this.jumpTo(this.x, this.y + this.speed);
+          }else{
+            this.jumpTo(this.x, this.y - this.speed);
+          }
+        }
+        return;
+      }
       if (this.act === "attack"){
         if (this.currentAction !== "attack"){
           this.changeAction("attack");
@@ -187,6 +225,13 @@ class Mobs extends Battler {
         }
         return;
       }
+    
+      if(this.act === "rangedAttack"){
+        if (this.currentAction !== "attack2"){
+          this.changeAction("attack2");
+        return;
+      }
+          
       if (this.act.includes("wait")){
         this.changeAction("stand");
         if (this.selfTimer !== undefined){
@@ -563,13 +608,15 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanwalk.png?v=1594589217594",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanshoot.png?v=1594589348929",
-    hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] //need changing
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanshoot.png?v=1594589348929",
+    hitBox: [[-110,4,84,76],[25,4,84,76]] //need changing
   }
 ];
 
 sprite.forEach((v, i) => {
   for (let keys in v) {
-    if (keys === "stand" || keys === "walk" || keys === "attack") {
+    if (typeof ) {
       let href = v[keys];
       let img = new Image();
       img.src = href;
@@ -591,7 +638,7 @@ let stage1 = new Stage((stage) => {
   mob.jumpTo(800, 250);
   mob.speed = 2;
   render();
-  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "", true));
+  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
   dialogueController.queue.push(new Dialogue("Show me where the prince is!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
@@ -651,13 +698,16 @@ function pause(){
 }
 
 function play(){
+  $("#pause").hide();
   $("#resume").hide();
   $("#restart").hide();
   $("#quit").hide();
+  $("#gameOver").hide();
   interval = setInterval(loop, 1000 / fps);
 }
 
 function pauseUI(){
+  $("#pause").show();
   $("#resume").show();
   $("#restart").show();
   $("#quit").show();
@@ -668,7 +718,7 @@ $("#resume").click(function(){
 });
                    
 $(document).keyup(function(e) {
-  if (e.which === 27) {
+  if (e.which === 27 && game === true) {
     pause();
     pauseUI();
   }
