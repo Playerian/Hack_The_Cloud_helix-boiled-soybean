@@ -200,8 +200,7 @@ function render() {
       ctx.restore();
       ctx.beginPath();
       ctx.strokeStyle = "red";
-      console.log(object.hitBox[0][3])
-      ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][3], object.hitBox[0][4]);//change to hitbox
+      ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][2], object.hitBox[0][3]);//change to hitbox
       ctx.stroke();
     } else {
       ctx.drawImage(
@@ -218,7 +217,7 @@ function render() {
       
       ctx.beginPath();
       ctx.strokeStyle = "red";
-      ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][3], object.hitBox[1][4]);//change to hitbox
+      ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][2], object.hitBox[1][3]);//change to hitbox
       ctx.stroke();
     }
 
