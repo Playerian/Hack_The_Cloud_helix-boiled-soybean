@@ -171,8 +171,6 @@ class Mobs extends Battler {
 function render() {
   //empty
   ctx.clearRect(0, 0, width, height);
-  //saving
-  ctx.save();
   //render
   for (let key in objectList) {
     let object = objectList[key];
@@ -183,6 +181,8 @@ function render() {
     let currentFrame = object.currentFrame;
 
     if (object.facingRight === 0) {
+      //saving
+      ctx.save();
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(
@@ -220,8 +220,6 @@ function render() {
       ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][2], object.hitBox[1][3]);//change to hitbox
       ctx.stroke();
     }
-
-    ctx.restore();
   }
 }
 
@@ -312,7 +310,9 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [[-109,16,85,109],[25,16,85,109]] //[[offset x, offset y, width, height],[]]
+    hitBox: [[-110,16,85,109],[25,16,85,109]] //[[offset x, offset y, width, height],[]]
+    //[[a, b, c, d], [e, f, g, h]]
+    //a = -g - e
   },
 
   {
@@ -323,7 +323,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384",
-    hitBox: [[-116, 25,81,97],[18, 25, 81, 97]]
+    hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
   }
 ];
 
