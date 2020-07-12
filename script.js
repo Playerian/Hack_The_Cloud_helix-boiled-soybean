@@ -1,8 +1,8 @@
 let c = document.getElementById("canvas");
 let ctx = c.getContext("2d");
 let fps = 60;
-let width = 500;
-let height = 500;
+let width = 1024;
+let height = 512;
 c.width = width;
 c.height = height;
 
@@ -119,7 +119,7 @@ class Mobs extends Battler {
     this.isMainChar = false;
     this.AI = {
       initial: ["toPlayer"],
-      repeat: ["attack", "wait", "toPlayer", "wait"]
+      repeat: ["attack", "wait1000", "toPlayer", "wait250"]
     };
     this.act;
   }
@@ -128,7 +128,7 @@ class Mobs extends Battler {
     //fill whatever
     //damage player if colliding
     if (this.isCollide(mainChar)){
-      mainChar
+      mainChar.gainHp(-this.damage);
     }
   }
 
@@ -164,22 +164,24 @@ class Mobs extends Battler {
             this.jumpTo(this.x, this.y - this.speed);
           }
         }
+        return;
       }
       if (this.act === "attack"){
         if (this.currentAction !== "attack"){
           this.changeAction("attack");
           this.onAttack();
         }
+        return;
       }
-      if (this.act === "wait"){
+      if (this.act.includes("wait")){
         this.changeAction("stand");
         if (this.selfTimer !== undefined){
           this.selfTimer += 1000/fps;
         }else{
           this.selfTimer = 0;
         }
-        if (this.selfTimer >= 1000){//1000 can be set to something else
-          this.resolveAct("wait");
+        if (this.selfTimer >= parseInt(this.act.substring(4)) ){//1000 can be set to something else
+          this.resolveAct(this.act);
           this.selfTimer = undefined;
         }
       }
@@ -434,16 +436,18 @@ let mainChar = new Main(0, 100, 128, 128);
 mainChar.jumpTo(50, 50);
 
 let mob = new Mobs(1, 100, 128, 128);
-mob.jumpTo(120, 120);
+mob.jumpTo(800, 50);
 mob.speed = 2
 
 //render loop
-let interval = setInterval(() => {
+let interval = setInterval(loop, 1000 / fps);
+
+function loop(){
   handleKeys();
   handleMoveFrames();
   mainChar.isCollide(mob);
   render();
-}, 1000 / fps);
+}
 
 function pause(){
   clearInterval(interval);
@@ -452,12 +456,7 @@ function pause(){
 
 function play(){
   $("#UI").hide();
-  interval = setInterval(() => {
-    handleKeys();
-    handleMoveFrames();
-    mainChar.isCollide(mob);
-    render();
-  }, 1000 / fps);
+  interval = setInterval(loop, 1000 / fps);
 }
 
 $("#resume").click(function(){
