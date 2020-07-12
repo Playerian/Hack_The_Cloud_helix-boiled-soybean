@@ -66,7 +66,7 @@ class Battler {
      rect1.x + rect1.width > rect2.x &&
      rect1.y < rect2.y + rect2.height &&
      rect1.y + rect1.height > rect2.y){
-      console.log("collide");
+      //console.log("collide");
       return true;
     }else{
       return false;
@@ -252,7 +252,8 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      let bullet = new Projectile()
+      let bullet = new Projectile(2,10,10,10)
+      bullet.jumpTo(mainChar.x, mainChar.y)
       
     }
   }
@@ -324,7 +325,17 @@ let sprite = [
     walk:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     attack:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384",
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot2.png?v=1594526056546",
+    hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
+  },
+  {
+    //bullet
+    stand:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
+    walk:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
+    attack:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
   }
 ];
