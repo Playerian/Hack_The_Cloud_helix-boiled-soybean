@@ -49,7 +49,15 @@ class Battler {
     this.y = y;
   }
   
-  flip
+  flipAround(){
+    if (this.facingRight === 0) {
+      this.facingRight = 1;
+      this.x -= this.width;
+    }else{
+      this.facingRight = 0;
+      this.x += this.width;//change to hitbox
+    }
+  }
 
   changeAction(action) {
     //animation
@@ -142,8 +150,8 @@ class Mobs extends Battler {
     super(id, hp, width, height);
     this.isMainChar = false;
     this.AI = {
-      initial: ["toPlayerY"],
-      repeat: ["rangedAttack10", "wait1000", "toPlayer", "wait250"]
+      initial: ["toPlayerY", "facePlayer"],
+      repeat: ["rangedAttack10", "wait1000", "toPlayer", "wait250", "toPlayerY", "facePlayer"]
     };
     this.act;
     if (stage){
@@ -162,9 +170,14 @@ class Mobs extends Battler {
   
   onRangeAttack(summoner,repeatTime){
     //summon bullet
+    let bulletYOffset
+    if(summoner.id === 4){
+      bulletYOffset = -4
+    }
+    
     for (let i = 0; i < repeatTime; i ++){
       let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 1, false)
-      bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y-4)
+      bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y-bulletYOffset)
       this.resolveAct("rangedAttack");
     }
   }
@@ -237,9 +250,13 @@ class Mobs extends Battler {
         return;
       }
       if (this.act === "facePlayer"){
-        if (this.x < mainChar.x){
-          
+        if (this.x < mainChar.x && !this.facingRight){
+          this.flipAround();
+        }else if (this.x > mainChar.x && this.facingRight){
+          this.flipAround();
         }
+        this.resolveAct("facePlayer");
+        return;
       }
       if (this.act === "attack"){
         if (this.currentAction !== "attack"){
@@ -766,10 +783,14 @@ $(document).keyup(function(e) {
   }
 });
 
-let backgroundImages = ["url(https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png)", 
+let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145249/4779a7547f510ddb98a89edda4df3c78.png)", 
                        "url(https://cdn.dribbble.com/users/375867/screenshots/3200773/shady-forest-game-background.png)",
                        ];
 
-if (currentStage === stage1){
-  c.style.backgroundImage = backgroundImages[0];
+function changeBackground(){
+  if (currentStage === stage1){
+    c.style.backgroundImage = backgroundImages[0];
+  } else if (currentStage === stage2){
+    c.style.backgroundImage = backgroundImages[1];
+  }
 }
