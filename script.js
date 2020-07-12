@@ -243,15 +243,16 @@ function render() {
       //hitbox rect
       ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][2], object.hitBox[0][3]);
       ctx.stroke();
-      if ()
-      //hpbar border
-      ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1] - 20, object.hitBox[0][2], 10);
-      ctx.stroke();
-      //hpbar inner
-      ctx.fillStyle = "#FF0000";
-      ctx.fillRect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1] - 20, object.hitBox[0][2] * (object.hp / object.maxhp), 10);
+      if (!object.isProjectile){
+        //hpbar border
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1] - 20, object.hitBox[0][2], 10);
+        ctx.stroke();
+        //hpbar inner
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1] - 20, object.hitBox[0][2] * (object.hp / object.maxhp), 10);
+      }
     } else {
       ctx.drawImage(
         object[`${object.currentAction}Animation`],
@@ -269,14 +270,16 @@ function render() {
       //hitbox rect
       ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][2], object.hitBox[1][3]);
       ctx.stroke();
-      //hpbar border
-      ctx.beginPath();
-      ctx.strokeStyle = "black";
-      ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1] - 20, object.hitBox[1][2], 10);
-      ctx.stroke();
-      //hpbar inner
-      ctx.fillStyle = "#FF0000";
-      ctx.fillRect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1] - 20, object.hitBox[1][2] * (object.hp / object.maxhp), 10);
+      if (!object.isProjectile){
+        //hpbar border
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1] - 20, object.hitBox[1][2], 10);
+        ctx.stroke();
+        //hpbar inner
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1] - 20, object.hitBox[1][2] * (object.hp / object.maxhp), 10);
+      }
     }
   }
 }
