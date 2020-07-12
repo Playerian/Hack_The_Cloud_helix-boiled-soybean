@@ -6,7 +6,7 @@ let height = 500;
 c.width = width;
 c.height = height;
 
-let objectList = {};
+let objectList = [];
 let keyList = {};
 
 $("#UI").hide();
@@ -30,7 +30,7 @@ class Battler {
     this.walkAnimation = sprite[id].walk;
     this.attackAnimation = sprite[id].attack;
     //import
-    objectList[id] = this;
+    this.listIndex = objectList.push(this) - 1;
   }
 
   jumpTo(x, y) {
@@ -72,13 +72,15 @@ class Battler {
       return false;
     }
   }
+  
+  destroySelf(){
+    
+  }
 }
 
 class Projectile extends Battler {
   constructor(id, hp, width, height) {
       super(id,hp,width,height)
-    //import
-    objectList[id] = this;
   }
 }
 
@@ -253,7 +255,7 @@ function handleKeys() {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
       let bullet = new Projectile(2,10,10,10)
-      bullet.jumpTo(mainChar.x, mainChar.y)
+      bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y)
       
     }
   }
