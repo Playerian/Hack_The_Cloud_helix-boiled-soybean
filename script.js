@@ -3,6 +3,7 @@ let ctx = c.getContext("2d");
 let fps = 60;
 let width = 500;
 let height = 500;
+let game = true;
 c.width = width;
 c.height = height;
 
@@ -50,7 +51,10 @@ class Battler {
   isCollide(another) {
     //check x
     if (this.facingRight === 1) {
-      if (this.x - 128<= another.x && this.x + 128 >= another.x && this.y <= another.y + 128 && this.y + 128 >= another.y){
+      if (this.x < another.x + another.hitBox[1][0] && 
+          this.x + 128 >= another.x && 
+          this.y <= another.y + 128 && 
+          this.y + 128 >= another.y){
         //check y
           console.log("collide");
           return true;
@@ -59,7 +63,10 @@ class Battler {
       }
     } else {
       //facing left
-      if (this.x - 256 <= another.x && this.x >= another.x && this.y - 128 <= another.y && this.y + 128 >= another.y) {
+      if (this.x - 256 <= another.x && 
+          this.x >= another.x && 
+          this.y - 128 <= another.y && 
+          this.y + 128 >= another.y) {
           console.log("collide");
           return true;
       }else{
@@ -189,12 +196,7 @@ function render() {
         oWidth,
         oHeight
       );
-
-      ctx.restore();
-      ctx.beginPath();
-      ctx.strokeStyle = "red";
-      ctx.rect(objectX - 128, objectY, 128, 128);
-      ctx.stroke();
+     
     } else {
       ctx.drawImage(
         object[`${object.currentAction}Animation`],
@@ -207,12 +209,6 @@ function render() {
         oWidth,
         oHeight
       );
-
-      //ctx.restore();
-      ctx.beginPath();
-      ctx.strokeStyle = "red";
-      ctx.rect(objectX, objectY, 128, 128);
-      ctx.stroke();
     }
 
     ctx.restore();
@@ -306,7 +302,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [[],[]] //[[offset x, offset y, width, height],[]]
+    hitBox: [[-128,0,128,128],[0,0,128,128]] //[[offset x, offset y, width, height],[]]
   },
 
   {
@@ -316,7 +312,8 @@ let sprite = [
     walk:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     attack:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384"
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot.png?v=1594499885384",
+    hitBox: [[-128,0,128,128],[0,0,128,128]]
   }
 ];
 
@@ -345,3 +342,22 @@ let interval = setInterval(() => {
   mainChar.isCollide(mob);
   render();
 }, 1000 / fps);
+
+function pause(){
+  clearInterval(interval);
+}
+
+function play(){
+  interval = setInterval(() => {
+    handleKeys();
+    handleMoveFrames();
+    mainChar.isCollide(mob);
+    render();
+  }, 1000 / fps);
+}
+
+$('body').keydown(function(event){
+    if(event.keycode === "27"){
+        pause();
+    };
+});
