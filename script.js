@@ -78,7 +78,7 @@ class Battler {
   }
   
   destroySelf(){
-    
+    objectList[this.listIndex];
   }
 }
 
