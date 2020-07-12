@@ -48,6 +48,8 @@ class Battler {
     this.x = x;
     this.y = y;
   }
+  
+  flip
 
   changeAction(action) {
     //animation
@@ -109,11 +111,12 @@ class Battler {
 }
 
 class Projectile extends Battler {
-  constructor(id, hp, width, height, speed, dir, damage) {
+  constructor(id, hp, width, height, speed, dir, damage, isFriendly) {
     super(id,hp,width,height)
     this.speed = speed;
     this.facingRight = dir;
     this.damage = damage;
+    this.isFriendly = isFriendly
     this.isProjectile = true;
   }
   
@@ -139,8 +142,8 @@ class Mobs extends Battler {
     super(id, hp, width, height);
     this.isMainChar = false;
     this.AI = {
-      initial: ["toPlayerX", "toPlayerY"],
-      repeat: ["attack", "rangedAttack", "wait1000", "toPlayer", "wait250"]
+      initial: ["toPlayerY"],
+      repeat: ["rangedAttack10", "wait1000", "toPlayer", "wait250"]
     };
     this.act;
     if (stage){
@@ -157,13 +160,12 @@ class Mobs extends Battler {
     }
   }
   
-  onRangeAttack(summoner,repeatTime,waitTime){
+  onRangeAttack(summoner,repeatTime){
     //summon bullet
-    for(let i = repeatTime;i>0;i--){
-      let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 25)
-      bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y+10)
+    for (let i = 0; i < repeatTime; i ++){
+      let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 1, false)
+      bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y-4)
       this.resolveAct("rangedAttack");
-      this.changeAction("wait"+waitTime)
     }
   }
   
@@ -234,6 +236,11 @@ class Mobs extends Battler {
         }
         return;
       }
+      if (this.act === "facePlayer"){
+        if (this.x < mainChar.x){
+          
+        }
+      }
       if (this.act === "attack"){
         if (this.currentAction !== "attack"){
           this.changeAction("attack");
@@ -244,8 +251,11 @@ class Mobs extends Battler {
       if(this.act.includes("rangedAttack")){
         if (this.currentAction !== "attack2"){
           this.changeAction("attack2");
-          let repeatTimes = parseInt(this.act.substring(11));
-          this.onRangeAttack(this);
+          let repeatTimes = parseInt(this.act.substring(12));
+          if (isNaN(repeatTimes)){
+            repeatTimes = 1;
+          }
+          this.onRangeAttack(this, repeatTimes);
         }
         return;
       }
@@ -505,7 +515,7 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      let bullet = new Projectile(2,60,128,128, 10, mainChar.facingRight, mainChar.damage)
+      let bullet = new Projectile(2,60,128,128, 10, mainChar.facingRight, mainChar.damage, true)
       bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y+10)
     }
   }
@@ -546,14 +556,20 @@ function handleMoveFrames() {
     
     
     if(object.id === 2){
-      objectList.forEach((v,i)=>{
-        if(v !== undefined && object.isCollide(v)){
-          if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
-            v.gainHp(-object.damage);
-            object.gainHp(-233); //kills bullet
+      if(object.isFriendly){
+        objectList.forEach((v,i)=>{
+          if(v !== undefined && object.isCollide(v)){
+            if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
+              v.gainHp(-object.damage);
+              object.gainHp(-233); //kills bullet
+            }
           }
+        })
+      }else{
+        if(object.isCollide(mainChar)){
+          mainChar.gainHp(-object.damage)
         }
-      })
+      }
     }
     
   }
@@ -750,6 +766,10 @@ $(document).keyup(function(e) {
   }
 });
 
-let backgroundImages = ["https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png", 
-                       "https://cdn.dribbble.com/users/375867/screenshots/3200773/shady-forest-game-background.png",
+let backgroundImages = ["url(https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png)", 
+                       "url(https://cdn.dribbble.com/users/375867/screenshots/3200773/shady-forest-game-background.png)",
                        ];
+
+if (currentStage === stage1){
+  c.style.backgroundImage = backgroundImages[0];
+}
