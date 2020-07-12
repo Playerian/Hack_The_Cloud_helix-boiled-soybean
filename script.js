@@ -9,9 +9,9 @@ c.height = height;
 let objectList = [];
 let keyList = {};
 
-// $("#restart").hide();
-// $("#resume").hide();
-// $("#quit").hide();
+$("#restart").hide();
+$("#resume").hide();
+$("#quit").hide();
 
 //constructors
 class Battler {
@@ -81,9 +81,11 @@ class Battler {
   gainHp(value){
     this.hp += value;
     if (this.hp <= 0){
+      if (this === mainChar){
+        $("#restart").show();
+        $("#quit").show();
+      }
       this.destroySelf();
-      $("#restart").show();
-      $("#quit").show();
     }
   }
   
@@ -279,13 +281,13 @@ class DialogueController{
     if (this.queue.length > 0){
       this.renderDialogue();
     }else{
+      play();
+      this.showingDialogue = false;
+      this.container.hide();
       if (this.onDialogueFinish){
         this.onDialogueFinish();
         this.onDialogueFinish = undefined;
       }
-      play();
-      this.showingDialogue = false;
-      this.container.hide();
     }
   }
 }
@@ -481,7 +483,7 @@ function handleMoveFrames() {
     if(object.id === 2){
       objectList.forEach((v,i)=>{
         if(v !== undefined && object.isCollide(v)){
-          if(v.id === 1 || v.id === 3 ){ //check id to see if is enemy
+          if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
             v.gainHp(-object.damage);
             object.gainHp(-233); //kills bullet
           }
@@ -552,6 +554,16 @@ let sprite = [
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
     hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] //need changing
+  },
+  {
+  //trashcan
+    stand:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanwalk.png?v=1594589217594",
+    walk:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanwalk.png?v=1594589217594",
+    attack:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanshoot.png?v=1594589348929",
+    hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] //need changing
   }
 ];
 
@@ -575,9 +587,10 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(3, 100, 128, 128, stage);
+  let mob = new Mobs(4, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
+  render();
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "", true));
   dialogueController.queue.push(new Dialogue("Show me where the prince is!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
@@ -600,6 +613,7 @@ let stage2 = new Stage((stage) => {
   let mob = new Mobs(1, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
+  render();
   dialogueController.queue.push(new Dialogue("Another mob? I am not afraid!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
@@ -634,9 +648,6 @@ function loop(){
 
 function pause(){
   clearInterval(interval);
-  $("#resume").show();
-  $("#restart").show();
-  $("#quit").show();
 }
 
 function play(){
@@ -646,6 +657,12 @@ function play(){
   interval = setInterval(loop, 1000 / fps);
 }
 
+function pauseUI(){
+  $("#resume").show();
+  $("#restart").show();
+  $("#quit").show();
+}
+
 $("#resume").click(function(){
   play();
 });
@@ -653,5 +670,6 @@ $("#resume").click(function(){
 $(document).keyup(function(e) {
   if (e.which === 27) {
     pause();
+    pauseUI();
   }
 });
