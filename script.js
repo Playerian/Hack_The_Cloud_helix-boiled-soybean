@@ -74,7 +74,10 @@ class Battler {
   }
   
   gainHp(value){
-    
+    this.hp += value;
+    if (this.hp <= 0){
+      this.destroySelf();
+    }
   }
   
   destroySelf(){
@@ -151,6 +154,7 @@ class Mobs extends Battler {
       if (this.act === "attack"){
         if (this.currentAction !== "attack"){
           this.changeAction("attack");
+          this.onAttack();
         }
       }
       //resolve act
