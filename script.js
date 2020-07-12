@@ -50,31 +50,55 @@ class Battler {
 
   isCollide(another) {
     //check x
-    if (this.facingRight === 1) {
-      let rect1 = {x: this.x + this.hitBox[0][0], y: this.y + this.hitBox[0][1], width: this.hitBox[0][2], height: this.hitBox[0][3]}
-      let rect2 = {x: another.x + another.hitBox[0][0], y: another.y + another.hitBox[0][1], width: another.hitBox[0][2], height: another.hitBox[0][3]}
-      if (rect1.x < rect2.x + rect2.width &&
-       rect1.x + rect1.width > rect2.x &&
-       rect1.y < rect2.y + rect2.height &&
-       rect1.y + rect1.height > rect2.y){
-    
-        console.log("collide");
-        return true;
-      }else{
-        return false;
-      }
-    } else {
-      //facing left
-      if (this.x - 256 <= another.x && 
-          this.x >= another.x && 
-          this.y - 128 <= another.y && 
-          this.y + 128 >= another.y) {
-          console.log("collide");
-          return true;
-      }else{
-        return false
-      }
+    let rect1, rect2;
+    if (this.facingRight === 1){
+      rect1 = {x: this.x + this.hitBox[1][0], y: this.y + this.hitBox[1][1], width: this.hitBox[1][2], height: this.hitBox[1][3]}
+    }else{
+      rect1 = {x: this.x + this.hitBox[0][0], y: this.y + this.hitBox[0][1], width: this.hitBox[0][2], height: this.hitBox[0][3]}
     }
+    if (another.facingRight === 1){
+      rect2 = {x: another.x + another.hitBox[1][0], y: another.y + another.hitBox[1][1], width: another.hitBox[1][2], height: another.hitBox[1][3]}
+    }else{
+      rect2 = {x: another.x + another.hitBox[0][0], y: another.y + another.hitBox[0][1], width: another.hitBox[0][2], height: another.hitBox[0][3]}
+    }
+    
+    if (rect1.x < rect2.x + rect2.width &&
+     rect1.x + rect1.width > rect2.x &&
+     rect1.y < rect2.y + rect2.height &&
+     rect1.y + rect1.height > rect2.y){
+      console.log("collide");
+      return true;
+    }else{
+      return false;
+    }
+    
+    // if (this.facingRight === 1) {
+    //   let rect1 = {x: this.x + this.hitBox[1][0], y: this.y + this.hitBox[1][1], width: this.hitBox[1][2], height: this.hitBox[1][3]}
+    //   let rect2 = {x: another.x + another.hitBox[1][0], y: another.y + another.hitBox[1][1], width: another.hitBox[1][2], height: another.hitBox[1][3]}
+    //   if (rect1.x < rect2.x + rect2.width &&
+    //    rect1.x + rect1.width > rect2.x &&
+    //    rect1.y < rect2.y + rect2.height &&
+    //    rect1.y + rect1.height > rect2.y){
+    //     console.log("collide");
+    //     return true;
+    //   }else{
+    //     return false;
+    //   }
+    // } else {
+    //   //facing left
+    //   //objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][2], object.hitBox[0][3]
+    //   let rect1 = {x: this.x + this.hitBox[0][0], y: this.y + this.hitBox[0][1], width: this.hitBox[0][2], height: this.hitBox[0][3]}
+    //   let rect2 = {x: another.x + another.hitBox[0][0], y: another.y + another.hitBox[0][1], width: another.hitBox[0][2], height: another.hitBox[0][3]}
+    //   if (rect1.x < rect2.x + rect2.width &&
+    //    rect1.x + rect1.width > rect2.x &&
+    //    rect1.y < rect2.y + rect2.height &&
+    //    rect1.y + rect1.height > rect2.y){
+    //       console.log("collide");
+    //       return true;
+    //   }else{
+    //     return false
+    //   }
+    // }
   }
 }
 

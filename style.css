@@ -105,6 +105,10 @@ a:hover{
   font-size: 200%;
 }
 
+#sec{
+  right: 100px;
+}
+
 /* Game */
 
 #gameBody{
