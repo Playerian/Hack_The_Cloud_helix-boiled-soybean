@@ -41,7 +41,8 @@ class Battler {
       }
     }
     //import
-    this.listIndex = objectList.push(this) - 1;
+    this.identifier = parseInt(String(Math.random()).substring(2))
+    objectList.push(this);
   }
 
   jumpTo(x, y) {
@@ -105,13 +106,19 @@ class Battler {
         $("#gameOver").show();
         $("#restart").show();
         $("#quit").show();
+        pause();
       }
       this.destroySelf();
     }
   }
   
   destroySelf(){
-    objectList[this.listIndex] = undefined;
+    for (let i = 0; i < objectList.length; i ++){
+      if (objectList[i].identifier === this.identifier){
+        objectList.splice(i, 1);
+        break;
+      }
+    }
     if (this.stage){
       this.stage.removeEnemy(this);
     }
@@ -235,9 +242,9 @@ class Mobs extends Battler {
         return;
       }
       if (this.act === "toPlayerY"){
-        if (this.y - mainChar.y <= this.hitBox[0][3]){
+        if (this.y - mainChar.y <= this.hitBox[0][3] && this.y + this.this.hitBox[0][3] >= mainChar.y){
           this.resolveAct("toPlayerY");
-          console.log("a")
+          
         }else{
           if (this.y < mainChar.y){
             this.jumpTo(this.x, this.y + this.speed);
