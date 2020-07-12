@@ -108,7 +108,7 @@ class Mobs extends Battler {
     this.isMainChar = false;
     this.AI = {
       initial: ["toPlayer"],
-      repeat: ["attack", "toPlayer"]
+      repeat: ["attack", "wait", "toPlayer", "wait"]
     };
     this.act;
   }
@@ -157,7 +157,18 @@ class Mobs extends Battler {
           this.onAttack();
         }
       }
-      //resolve act
+      if (this.act === "wait"){
+        this.changeAction("stand");
+        if (this.selfTimer !== undefined){
+          this.selfTimer += 1000/fps;
+        }else{
+          this.selfTimer = 0;
+        }
+        if (this.selfTimer >= 1000){//1000 can be set to something else
+          this.resolveAct("wait");
+          this.selfTimer = undefined;
+        }
+      }
       
     } else {
       //no act
