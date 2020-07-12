@@ -3,7 +3,7 @@
 #gameTitle{
   display: flex;
   justify-content: center;
-  color: white;
+  text-decoration: underline;  
 }
 
 .begin{
@@ -106,7 +106,8 @@ a:hover{
 }
 
 #sec{
-  right: 100px;
+  position: absolute;
+  right: 11%;
 }
 
 /* Game */
