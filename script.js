@@ -208,6 +208,34 @@ class Mobs extends Battler {
   }
 }
 
+class DialogueController{
+  constructor(){
+    this.queue = [];
+    this.showingDialogue = false;
+  }
+  
+  renderDialogue(){
+    
+  }
+  
+  resolveDialogue(){
+    this.queue.shift();
+    if (this.queue.length > 0){
+      this.renderDialogue();
+    }
+  }
+}
+
+class Dialogue{
+  constructor(text, img, isTop){
+    this.text = text;
+    let image = new Image();
+    image.src = img;
+    this.img = image;
+    this.isTop = isTop;
+  }
+}
+
 //handling functions
 function render() {
   //empty
