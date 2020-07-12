@@ -73,6 +73,10 @@ class Battler {
     }
   }
   
+  gainHp(value){
+    
+  }
+  
   destroySelf(){
     
   }
@@ -81,6 +85,10 @@ class Battler {
 class Projectile extends Battler {
   constructor(id, hp, width, height) {
       super(id,hp,width,height)
+  }
+  
+  behavior(){
+    
   }
 }
 
