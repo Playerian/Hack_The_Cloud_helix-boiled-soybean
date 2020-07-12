@@ -86,7 +86,7 @@ class Battler {
 }
 
 class Projectile extends Battler {
-  constructor(id, hp, width, height, speed, dir) {
+  constructor(id, hp, width, height, speed, dir, damage) {
     super(id,hp,width,height)
     this.speed = speed;
     this.facingRight = dir;
@@ -289,6 +289,8 @@ function handleKeys() {
       mainChar.changeAction("attack");
       let bullet = new Projectile(2,25,128,128, 10, mainChar.facingRight)
       bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y+10)
+      
+      console.log(objectList())
       
     }
   }
