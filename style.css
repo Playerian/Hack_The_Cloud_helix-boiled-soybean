@@ -125,6 +125,8 @@ a:hover{
 
 #canvas{
   border: solid 1px;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #quit{

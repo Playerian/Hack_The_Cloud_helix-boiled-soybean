@@ -1,10 +1,5 @@
 let c = document.getElementById("canvas");
 let ctx = c.getContext("2d");
-
-let image = new Image();
-image.src= "https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png";
-ctx.drawImage(image, 0, 0, c.width, c.height);
-
 let fps = 60;
 let width = 1024;
 let height = 512;
@@ -40,9 +35,11 @@ class Battler {
     this.totalFrame = sprite[id].totalFrame || 1;
     //stand, walk, attack
     this.currentAction = "stand";
-    this.standAnimation = sprite[id].stand;
-    this.walkAnimation = sprite[id].walk;
-    this.attackAnimation = sprite[id].attack;
+    for (let keys in sprite[id]){
+      if (sprite[id][keys].nodeName === "IMG"){
+        this[`${keys}Animation`] = sprite[id][keys];
+      }
+    }
     //import
     this.listIndex = objectList.push(this) - 1;
   }
@@ -58,7 +55,11 @@ class Battler {
       return;
     }
     this.currentFrame = 0;
-    this.totalFrame = Math.floor(this[`${action}Animation`].width / this.width);
+    if (this[`${action}Animation`]){
+      this.totalFrame = Math.floor(this[`${action}Animation`].width / this.width);
+    }else{
+      this.totalFrame = 0;
+    }
     this.currentAction = action;
   }
 
@@ -156,10 +157,14 @@ class Mobs extends Battler {
     }
   }
   
-  onRangeAttack(summoner){
+  onRangeAttack(summoner,repeatTime,waitTime){
     //summon bullet
-    //let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 25)
-    //bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y+10)
+    for(let i = repeatTime;i>0;i--){
+      let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 25)
+      bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y+10)
+      this.resolveAct("rangedAttack");
+      this.changeAction("wait"+waitTime)
+    }
   }
   
   behavior() {
@@ -236,10 +241,11 @@ class Mobs extends Battler {
         }
         return;
       }
-      if(this.act === "rangedAttack"){
+      if(this.act.includes("rangedAttack")){
         if (this.currentAction !== "attack2"){
           this.changeAction("attack2");
-          this.onRangeAttack();
+          let repeatTimes = parseInt(this.act.substring(11));
+          this.onRangeAttack(this);
         }
         return;
       }
@@ -577,6 +583,8 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
     hitBox: [[-110,16,85,109],[25,16,85,109]] //[[offset x, offset y, width, height],[]]
     //[[a, b, c, d], [e, f, g, h]]
     //a = -g - e
@@ -590,6 +598,8 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot2.png?v=1594526056546",
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentShoot2.png?v=1594526056546",
     hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
   },
   {
@@ -599,6 +609,8 @@ let sprite = [
     walk:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     attack:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
+    attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     hitBox: [[-70, 59,10,5],[60, 59, 10, 5]]
   },
@@ -737,3 +749,7 @@ $(document).keyup(function(e) {
     pauseUI();
   }
 });
+
+let backgroundImages = ["https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png", 
+                       "https://cdn.dribbble.com/users/375867/screenshots/3200773/shady-forest-game-background.png",
+                       ];
