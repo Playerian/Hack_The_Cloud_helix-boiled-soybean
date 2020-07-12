@@ -46,6 +46,11 @@ class Battler {
   }
 
   jumpTo(x, y) {
+    let realX = x;
+    if (this.facingRight === 0){
+      realX -= width;
+    }
+    if (realX )
     this.x = x;
     this.y = y;
   }
@@ -242,7 +247,7 @@ class Mobs extends Battler {
         return;
       }
       if (this.act === "toPlayerY"){
-        if (this.y - mainChar.y <= this.hitBox[0][3] && this.y + this.this.hitBox[0][3] >= mainChar.y){
+        if (this.y - mainChar.y <= this.hitBox[0][3] && this.y + this.hitBox[0][3] >= mainChar.y){
           this.resolveAct("toPlayerY");
           
         }else{
@@ -287,6 +292,8 @@ class Mobs extends Battler {
         return;
       }
           
+      
+      
       if (this.act.includes("wait")){
         this.changeAction("stand");
         if (this.selfTimer !== undefined){
@@ -581,7 +588,7 @@ function handleMoveFrames() {
           if(v !== undefined && object.isCollide(v)){
             if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
               v.gainHp(-object.damage);
-              object.gainHp(-233); //kills bullet
+              object.gainHp(-2333); //kills bullet
               return;
             }
           }
@@ -589,7 +596,7 @@ function handleMoveFrames() {
       }else{
         if(object.isCollide(mainChar)){
           mainChar.gainHp(-object.damage)
-          object.gainHp(-233); //kills bullet
+          object.gainHp(-2333); //kills bullet
         }
       }
     }
@@ -623,6 +630,8 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
+    block:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fguy%20blocking.gif?v=1594581470432",
     hitBox: [[-110,16,85,109],[25,16,85,109]] //[[offset x, offset y, width, height],[]]
     //[[a, b, c, d], [e, f, g, h]]
     //a = -g - e
@@ -707,7 +716,7 @@ let stage1 = new Stage((stage) => {
     // initial: [],
     // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     initial: ["facePlayer"],
-    repeat: ["toPlayerY","rangedAttack10", "wait1000"]
+    repeat: ["toPlayerY","rangedAttack10", "wait20","facePlayer"]
   }
   render();
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
@@ -794,13 +803,11 @@ let mainChar = new Main(0, 100, 128, 128);
 mainChar.jumpTo(50, 250);
 
 function cleanseProjectile(){
-  for (let key in objectList) {
-    if (!objectList[key]){
-      continue;
-    }
-    let object = objectList[key];
+  for (let i = 0; i < objectList.length; i ++) {
+    let object = objectList[i];
     if (object.isProjectile){
       object.destroySelf();
+      i --
     }
   }
 }
