@@ -230,9 +230,8 @@ class DialogueController{
   }
   
   attachHandler(){
-    console.log(this);
-    this.container.one("keypress", function () {
-      console.log("yes");
+    $(document).one("keypress", () => {
+      this.resolveDialogue();
     });
   }
   
