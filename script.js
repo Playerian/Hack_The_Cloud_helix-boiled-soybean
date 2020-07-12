@@ -92,7 +92,7 @@ class Battler {
 }
 
 class Projectile extends Battler {
-  constructor(id, hp, width, height, speed, dir, damage, isFriendly) {
+  constructor(id, hp, width, height, speed, dir, damage) {
     super(id,hp,width,height)
     this.speed = speed;
     this.facingRight = dir;
@@ -188,7 +188,7 @@ class Mobs extends Battler {
         }else{
           this.selfTimer = 0;
         }
-        if (this.selfTimer >= parseInt(this.act.substring(4)) ){//1000 can be set to something else
+        if (this.selfTimer >= parseInt(this.act.substring(4)) ){
           this.resolveAct(this.act);
           this.selfTimer = undefined;
         }
@@ -216,9 +216,10 @@ class Mobs extends Battler {
   }
 }
 
-class Boss extends Battler{
+class Boss extends Mobs{
   constructor(id, hp, width, height, stage) {
     super(id, hp, width, height);
+    this.isMainChar = false;
   }
 }
 
@@ -537,10 +538,10 @@ let sprite = [
     walk:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredWalk.png?v=1594587149260",
     attack:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
-    attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredFire.png?v=1594585825786",
-    hitBox: [[-70, 59,10,5],[60, 59, 10, 5]] //need changing
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
+    hitBox: [[-0, 0,100,10],[0, 0, 100, 00]] //need changing
   }
 ];
 
@@ -564,9 +565,10 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(1, 100, 128, 128, stage);
+  let mob = new Mobs(3, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
+  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "", true));
   dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
@@ -578,6 +580,8 @@ let stage1 = new Stage((stage) => {
 
 let stage2 = new Stage((stage) => {
   //stage start
+  cleanseProjectile();
+  mainChar.jumpTo(50, 250);
   let mob = new Mobs(1, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
@@ -592,6 +596,18 @@ stage1.startStage();
 
 let mainChar = new Main(0, 100, 128, 128);
 mainChar.jumpTo(50, 250);
+
+function cleanseProjectile(){
+  for (let key in objectList) {
+    if (!objectList[key]){
+      continue;
+    }
+    let object = objectList[key];
+    if (object.isProjectile){
+      object.destroySelf();
+    }
+  }
+}
 
 loop();
 
