@@ -297,7 +297,7 @@ class Stage{
   }
   
   removeEnemy(enemy){
-    for (let i = 0; i < this.enemyList; i ++){
+    for (let i = 0; i < this.enemyList.length; i ++){
       if (enemy === this.enemyList[i]){
         this.enemyList.splice(i, 1);
         return;
@@ -538,10 +538,18 @@ sprite.forEach((v, i) => {
 //render loop
 let interval = setInterval(loop, 1000 / fps);
 
+//initialize dialogue
+let dialogueController = new DialogueController();
+
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  
+  let mob = new Mobs(1, 100, 128, 128, stage);
+  mob.jumpTo(800, 50);
+  mob.speed = 2;
+  dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", true));
+  dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
 });
@@ -551,17 +559,7 @@ let currentStage = stage1;
 let mainChar = new Main(0, 100, 128, 128);
 mainChar.jumpTo(50, 50);
 
-let mob = new Mobs(1, 100, 128, 128);
-mob.jumpTo(800, 50);
-mob.speed = 2
-
 loop();
-
-//initialize dialogue
-let dialogueController = new DialogueController();
-dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
-dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", true));
-dialogueController.renderDialogue();
 
 function loop(){
   handleKeys();
