@@ -46,11 +46,30 @@ class Battler {
   }
 
   jumpTo(x, y) {
-    let realX = x;
-    if (this.facingRight === 0){
-      realX -= width;
+    if (!this.isProjectile){
+      let realX = x;
+      if (this.facingRight === 0){
+        realX -= this.width;
+      }
+      if (realX < -20){
+        x = -20;
+        if (this.facingRight === 0){
+          x += this.width;
+        }
+      }
+      if (realX > width - this.width){
+        x = width - this.width;
+        if (this.facingRight === 0){
+          x += this.width;
+        }
+      }
+      if (y > height - this.height){
+        y = height - this.height;
+      }
+      if (y < -25){
+        y = -25;
+      }
     }
-    if (realX )
     this.x = x;
     this.y = y;
   }
@@ -291,8 +310,6 @@ class Mobs extends Battler {
         }
         return;
       }
-          
-      
       
       if (this.act.includes("wait")){
         this.changeAction("stand");
@@ -671,7 +688,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredFire.png?v=1594585825786",
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
-    hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] 
+    hitBox: [[-119, 2,102,50],[17, 2, 102, 124]] 
   },
   {
   //trashcan
@@ -716,7 +733,7 @@ let stage1 = new Stage((stage) => {
     // initial: [],
     // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     initial: ["facePlayer"],
-    repeat: ["toPlayerY","rangedAttack10", "wait20","facePlayer"]
+    repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
   }
   render();
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
