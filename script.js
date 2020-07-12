@@ -86,12 +86,19 @@ class Battler {
 }
 
 class Projectile extends Battler {
-  constructor(id, hp, width, height) {
-      super(id,hp,width,height)
+  constructor(id, hp, width, height, speed, dir) {
+    super(id,hp,width,height)
+    this.speed = speed;
+    this.facingRight = dir;
   }
   
   behavior(){
-    
+    if (this.facingRight){
+      this.jumpTo();
+    }else{
+      
+    }
+    this.gainHp(-1);
   }
 }
 
@@ -277,7 +284,7 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      let bullet = new Projectile(2,10,10,10)
+      let bullet = new Projectile(2,10,128,128, mainChar.facingRight)
       bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y)
       
     }
