@@ -312,7 +312,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [[-128,0,128,128],[0,0,128,128]] //[[offset x, offset y, width, height],[]]
+    hitBox: [[-100,0,100,100],[0,0,100,100]] //[[offset x, offset y, width, height],[]]
   },
 
   {
