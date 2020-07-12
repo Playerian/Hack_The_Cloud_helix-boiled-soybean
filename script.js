@@ -92,7 +92,7 @@ class Battler {
 }
 
 class Projectile extends Battler {
-  constructor(id, hp, width, height, speed, dir, damage) {
+  constructor(id, hp, width, height, speed, dir, damage, isFriendly) {
     super(id,hp,width,height)
     this.speed = speed;
     this.facingRight = dir;
@@ -216,6 +216,12 @@ class Mobs extends Battler {
   }
 }
 
+class Boss extends Battler{
+  constructor(id, hp, width, height, stage) {
+    super(id, hp, width, height);
+  }
+}
+
 class DialogueController{
   constructor(){
     this.queue = [];
@@ -287,9 +293,11 @@ class Stage{
   constructor(onStart, onEnd){
     this.enemyList = [];
     this.onEnd = onEnd;
-    if (onStart){
-      onStart(this);
-    }
+    this.onStart = onStart;
+  }
+  
+  startStage(){
+    this.onStart(this);
   }
   
   newEnemy(enemy){
@@ -300,7 +308,7 @@ class Stage{
     for (let i = 0; i < this.enemyList.length; i ++){
       if (enemy === this.enemyList[i]){
         this.enemyList.splice(i, 1);
-        return;
+        break;
       }
     }
     //check if empty
@@ -521,6 +529,18 @@ let sprite = [
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     hitBox: [[-70, 59,10,5],[60, 59, 10, 5]]
+  },
+  {
+    //redprincess
+    stand:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredWalk.png?v=1594587149260",
+    walk:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredWalk.png?v=1594587149260",
+    attack:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fredshoot.png?v=1594584911893",
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredFire.png?v=1594585825786",
+    hitBox: [[-70, 59,10,5],[60, 59, 10, 5]] //need changing
   }
 ];
 
@@ -545,19 +565,33 @@ let dialogueController = new DialogueController();
 let stage1 = new Stage((stage) => {
   //stage start
   let mob = new Mobs(1, 100, 128, 128, stage);
-  mob.jumpTo(800, 50);
+  mob.jumpTo(800, 250);
   mob.speed = 2;
   dialogueController.queue.push(new Dialogue("debugging", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
-  dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", true));
+  dialogueController.queue.push(new Dialogue("but why?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
+  dialogueController.renderDialogue();
+}, (stage) => {
+  //stage end
+  currentStage = stage2;
+  stage2.startStage();
+});
+
+let stage2 = new Stage((stage) => {
+  //stage start
+  let mob = new Mobs(1, 100, 128, 128, stage);
+  mob.jumpTo(800, 250);
+  mob.speed = 2;
+  dialogueController.queue.push(new Dialogue("yolo, another one", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
 });
 
 let currentStage = stage1;
+stage1.startStage();
 
 let mainChar = new Main(0, 100, 128, 128);
-mainChar.jumpTo(50, 50);
+mainChar.jumpTo(50, 250);
 
 loop();
 
