@@ -51,7 +51,7 @@ class Battler {
   isCollide(another) {
     //check x
     if (this.facingRight === 1) {
-      if (this.x + this.hitBox < another.x + another.x + another.hitBox[0][2] &&
+      if (this.x + this.hitBox[0][0] < another.x + another.hitBox[0][2] &&
           this.x + this.hitBox[0][2] > another.x &&
          this.y < another.y + another.hitBox[0][3] &&
          this.y + this.hitBox[0][3] > another.y){
@@ -375,6 +375,5 @@ $("#resume").click(function(){
 $(document).keyup(function(e) {
   if (e.which === 27) {
     pause();
-    alert("SD");
   }
 });
