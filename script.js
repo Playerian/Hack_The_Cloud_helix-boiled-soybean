@@ -1,5 +1,10 @@
 let c = document.getElementById("canvas");
 let ctx = c.getContext("2d");
+
+let image = new Image();
+image.src= "https://i.pinimg.com/originals/f6/b3/10/f6b3107916c0fa4836bd6c05446b6ea7.png";
+ctx.drawImage(image, 0, 0, c.width, c.height);
+
 let fps = 60;
 let width = 1024;
 let height = 512;
@@ -49,7 +54,7 @@ class Battler {
 
   changeAction(action) {
     //animation
-    if (action !== "stand" && action !== "walk" && action !== "attack") {
+    if (typeof action !== "string") {
       return;
     }
     this.currentFrame = 0;
@@ -150,7 +155,13 @@ class Mobs extends Battler {
       mainChar.gainHp(-this.damage);
     }
   }
-
+  
+  onRangeAttack(summoner){
+    //summon bullet
+    //let bullet = new Projectile(2,60,128,128, 10, summoner.facingRight, 25)
+    //bullet.jumpTo(summoner.x + summoner.hitBox[summoner.facingRight][0], summoner.y+10)
+  }
+  
   behavior() {
     //should run every time handlemoveframe function runs
     //check if act exist
@@ -225,10 +236,11 @@ class Mobs extends Battler {
         }
         return;
       }
-    
       if(this.act === "rangedAttack"){
         if (this.currentAction !== "attack2"){
           this.changeAction("attack2");
+          this.onRangeAttack();
+        }
         return;
       }
           
@@ -512,11 +524,13 @@ function handleMoveFrames() {
     if (object.currentFrame >= object.totalFrame) {
       object.currentFrame = 0;
       //check if attacking
-      if (object.currentAction === "attack") {
+      if (object.currentAction.includes("attack")) {
         object.changeAction("walk");
         //check if a mob
-        if (object.act === "attack"){
-          object.resolveAct("attack");
+        if (object.act){
+          if (object.act.includes("attack")){
+            object.resolveAct(object.act);
+          }
         }
       }
     }
@@ -616,7 +630,7 @@ let sprite = [
 
 sprite.forEach((v, i) => {
   for (let keys in v) {
-    if (typeof ) {
+    if (typeof v[keys] === "string") {
       let href = v[keys];
       let img = new Image();
       img.src = href;
@@ -638,9 +652,9 @@ let stage1 = new Stage((stage) => {
   mob.jumpTo(800, 250);
   mob.speed = 2;
   render();
-  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
-  dialogueController.queue.push(new Dialogue("Show me where the prince is!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
-  dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
+  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
+  dialogueController.queue.push(new Dialogue("Show me where the prince is! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
@@ -648,8 +662,8 @@ let stage1 = new Stage((stage) => {
     currentStage = stage2;
     stage2.startStage();
   };
-  dialogueController.queue.push(new Dialogue("BOOM!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
-  dialogueController.queue.push(new Dialogue("I am going forward!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("BOOM! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
+  dialogueController.queue.push(new Dialogue("I am going forward! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 });
 
@@ -718,7 +732,7 @@ $("#resume").click(function(){
 });
                    
 $(document).keyup(function(e) {
-  if (e.which === 27 && game === true) {
+  if (e.which === 27) {
     pause();
     pauseUI();
   }

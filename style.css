@@ -120,6 +120,7 @@ a:hover{
 
 #canvasContainer{
   display: inline-block;
+  margin-top: 2%;
 }
 
 #canvas{
