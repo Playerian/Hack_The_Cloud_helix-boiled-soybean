@@ -119,9 +119,20 @@ a:hover{
 
 /* Game */
 
+#gameBody{
+  height: 100%;
+}
+
+#gameContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #canvasContainer{
   border: solid 1px;
   display: inline-block;
+  width: 50%;
 }
 
 /* End */

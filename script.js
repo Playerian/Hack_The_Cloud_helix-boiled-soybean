@@ -217,7 +217,7 @@ function render() {
       
       ctx.beginPath();
       ctx.strokeStyle = "red";
-      ctx.rect(objectX, objectY, 128, 128);//change to hitbox
+      ctx.rect(objectX, objectY, object.hitBox[1][2]+object.hitBox[1][1], object.hitBox[1][3]+object.hitBox[1][1]);//change to hitbox
       ctx.stroke();
     }
 
@@ -312,7 +312,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyAttack.png?v=1594502053544",
-    hitBox: [[-128,0,128,128],[0,0,128,128]] //[[offset x, offset y, width, height],[]]
+    hitBox: [[128,0,128,128],[0,0,128,128]] //[[offset x, offset y, width, height],[]]
   },
 
   {

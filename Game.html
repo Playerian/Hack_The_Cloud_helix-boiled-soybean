@@ -14,20 +14,30 @@
     <!-- import the webpage's javascript file -->
     <script src="/script.js" defer></script>
   </head>
-  <body>
-    <div id="canvasContainer">
-      <canvas id="canvas"></canvas>
+  <body id= "gameBody">
+    
+    <div id= "gameContainer">
+      <div class= "placeholder">
+
+      </div>
+
+      <div id="canvasContainer">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class= "placeholder">
+
+      </div>
+
+      <div id= "UI">
+        <button id= "resume">
+          Resume
+        </button>
+
+        <button id= "quit">
+          <a href= "index.html">Quit</a>
+        </button>
+      </div>
     </div>
-    
-    <div id= "UI">
-      <button id= "resume">
-        Resume
-      </button>
-    
-      <button id= "quit">
-        <a href= "index.html">Quit</a>
-      </button>
-    </div>
-    
   </body>
 </html>
