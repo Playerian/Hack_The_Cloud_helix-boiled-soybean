@@ -51,13 +51,15 @@ class Battler {
   isCollide(another) {
     //check x
     if (this.facingRight === 1) {
-      if (this.x + this.hitBox[0][0] < another.x + another.hitBox[0][2] + another.hitBox[0][0] &&
-          this.x + this.hitBox[0][0] + this.hitBox[0][2] > another.x  + another.hitBox[0][0]&&
-         this.y + this.hitBox[0][1]< another.y + another.hitBox[0][3] +another.hitBox[0][0] &&
-         this.y + this.hitBox[0][1]+ this.hitBox[0][3] > another.y +another.hitBox[0][0]){
-        //check y
-          console.log("collide");
-          return true;
+      let rect1 = {x: this.hitBox[0][0], y: this.hitBox[0][1], width: this.hitBox[0][2], height: this.hitBox[0][3]}
+      let rect2 = {x: 20, y: 10, width: another.hitBox[0][2], height: another.hitBox[0][3]}
+      if (rect1.x < rect2.x + rect2.width &&
+       rect1.x + rect1.width > rect2.x &&
+       rect1.y < rect2.y + rect2.height &&
+       rect1.y + rect1.height > rect2.y){
+    
+        console.log("collide");
+        return true;
       }else{
         return false;
       }
