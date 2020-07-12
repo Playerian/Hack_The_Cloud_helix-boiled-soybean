@@ -94,9 +94,9 @@ class Projectile extends Battler {
   
   behavior(){
     if (this.facingRight){
-      this.jumpTo();
+      this.jumpTo(this.x + this.speed, this.y);
     }else{
-      
+      this.jumpTo(this.x - this.speed, this.y);
     }
     this.gainHp(-1);
   }
@@ -205,6 +205,9 @@ function render() {
   ctx.clearRect(0, 0, width, height);
   //render
   for (let key in objectList) {
+    if (!objectList[key]){
+      continue;
+    }
     let object = objectList[key];
     let objectX = object.x;
     let objectY = object.y;
@@ -284,7 +287,7 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      let bullet = new Projectile(2,10,128,128, mainChar.facingRight)
+      let bullet = new Projectile(2,25,128,128, 10, mainChar.facingRight)
       bullet.jumpTo(mainChar.x + mainChar.hitBox[mainChar.facingRight][0], mainChar.y)
       
     }
@@ -302,6 +305,9 @@ function handleKeys() {
 
 function handleMoveFrames() {
   for (let key in objectList) {
+    if (!objectList[key]){
+      continue;
+    }
     let object = objectList[key];
     object.currentFrame += 1;
     if (object.currentFrame >= object.totalFrame) {
@@ -368,7 +374,7 @@ let sprite = [
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     attack:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
-    hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
+    hitBox: [[-70, 59,10,5],[60, 59, 10, 5]]
   }
 ];
 

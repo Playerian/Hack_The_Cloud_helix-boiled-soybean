@@ -121,8 +121,6 @@ a:hover{
 #canvasContainer{
   border: solid 1px;
   display: inline-block;
-  width: 50%;
-  margin-top: 7%;
 }
 
 #quit{
