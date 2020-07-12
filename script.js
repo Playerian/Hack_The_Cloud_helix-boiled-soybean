@@ -3,13 +3,13 @@ let ctx = c.getContext("2d");
 let fps = 60;
 let width = 500;
 let height = 500;
-let game = true;
 c.width = width;
 c.height = height;
 
 let objectList = {};
 let keyList = {};
 
+$("#UI").hide();
 //constructors
 class Battler {
   constructor(id, hp, width, height) {
@@ -200,7 +200,7 @@ function render() {
       ctx.restore();
       ctx.beginPath();
       ctx.strokeStyle = "red";
-      ctx.rect(objectX, objectY, this.hitBox[0][0]+this.hitBox[0][2], this.hitBox[0][1]+this.hitBox[0][3]);//change to hitbox
+      ctx.rect(objectX, objectY, object.hitBox[0][2]+object.hitBox[0][1], object.hitBox[0][3]+object.hitBox[0][1]);//change to hitbox
       ctx.stroke();
     } else {
       ctx.drawImage(
@@ -355,9 +355,11 @@ let interval = setInterval(() => {
 
 function pause(){
   clearInterval(interval);
+  $("#UI").show();
 }
 
 function play(){
+  $("#UI").hide();
   interval = setInterval(() => {
     handleKeys();
     handleMoveFrames();
@@ -366,9 +368,13 @@ function play(){
   }, 1000 / fps);
 }
 
-$(document).keypress(function(e) { 
-    if (e.keycode === 27){
-      pause();
-      alert("HOI")
-    }
+$("#resume").click(function(){
+  play();
+});
+                   
+$(document).keyup(function(e) {
+  if (e.which === 27) {
+    pause();
+    alert("SD");
+  }
 });
