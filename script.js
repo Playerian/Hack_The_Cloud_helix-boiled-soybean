@@ -76,6 +76,7 @@ class Battler {
 
 class Projectile extends Battler {
   constructor(id, hp, width, height) {
+      super(id,hp,width,height)
     //import
     objectList[id] = this;
   }
@@ -101,7 +102,7 @@ class Mobs extends Battler {
   
   onAttack(){
     //fill whatever
-    console.log("b")
+    
   }
 
   behavior() {
@@ -251,7 +252,7 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
-      mainChar.onAttack()
+      let bullet = new Projectile()
       
     }
   }
