@@ -119,8 +119,11 @@ a:hover{
 }
 
 #canvasContainer{
-  border: solid 1px;
   display: inline-block;
+}
+
+#canvas{
+  border: solid 1px;
 }
 
 #quit{
@@ -151,5 +154,12 @@ a:hover{
   display: flex;
   justify-content: space-around;
 }
+
+/*Game Dialogue  */
+.dialogueContainer{
+  border: solid;
+  position: relative;
+}
+
 /* End */
 

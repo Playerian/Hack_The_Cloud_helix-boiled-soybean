@@ -10,6 +10,7 @@ let objectList = [];
 let keyList = {};
 
 $("#UI").hide();
+
 //constructors
 class Battler {
   constructor(id, hp, width, height) {
@@ -212,6 +213,16 @@ class DialogueController{
   constructor(){
     this.queue = [];
     this.showingDialogue = false;
+    let $container = $("<div>").addClass("dialogueContainer");
+    this.setContainer($container);
+    $("#canvasContainer").append()
+    $container.hide();
+    this.container = $container;
+  }
+  
+  setContainer(container){
+    container.css("height", `${height * 0.2}px`);
+    container.css("bottom", `${height + 7}px`);
   }
   
   renderDialogue(){
@@ -225,6 +236,7 @@ class DialogueController{
       this.renderDialogue();
     }else{
       play();
+      this.showingDialogue = false;
     }
   }
 }
@@ -320,7 +332,10 @@ function render() {
     }
   }
   //render dialogue
-  
+  let control = dialogueController;
+  if (control.showingDialogue){
+    control.setContainer(control.container);
+  }
 }
 
 function handleKeys() {
