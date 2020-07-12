@@ -101,6 +101,7 @@ class Mobs extends Battler {
   
   onAttack(){
     //fill whatever
+    console.log("b")
   }
 
   behavior() {
@@ -250,6 +251,8 @@ function handleKeys() {
   if (keyList["j"]) {
     if (mainChar.currentAction !== "attack") {
       mainChar.changeAction("attack");
+      mainChar.onAttack()
+      
     }
   }
   if (mainChar.currentAction !== "attack") {
@@ -279,7 +282,7 @@ function handleMoveFrames() {
       }
     }
     if (object.behavior) {
-      //object.behavior();
+      object.behavior();
     }
   }
 }
