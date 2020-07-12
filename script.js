@@ -85,6 +85,9 @@ class Battler {
   
   destroySelf(){
     objectList[this.listIndex] = undefined;
+    if (this.stage){
+      
+    }
   }
 }
 
@@ -115,7 +118,7 @@ class Main extends Battler {
 }
 
 class Mobs extends Battler {
-  constructor(id, hp, width, height) {
+  constructor(id, hp, width, height, stage) {
     super(id, hp, width, height);
     this.isMainChar = false;
     this.AI = {
@@ -123,6 +126,8 @@ class Mobs extends Battler {
       repeat: ["attack", "wait1000", "toPlayer", "wait250"]
     };
     this.act;
+    this.stage = stage;
+    stage.newEnemy(this);
   }
   
   onAttack(){
@@ -273,6 +278,17 @@ class Dialogue{
     this.text = text;
     this.img = img;
     this.isTop = isTop;
+  }
+}
+
+class Stage{
+  constructor(nextStage){
+    this.enemyList = [];
+    this.nextStage = nextStage;
+  }
+  
+  newEnemy(enemy){
+    this.enemyList.push(enemy);
   }
 }
 
