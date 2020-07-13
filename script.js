@@ -1004,7 +1004,7 @@ let infiniteStage = new Stage((stage) => {
     mobCount = 1;
   }
   let possibleID = [1, 3, 4, 5];
-  let possibleAI = ["heal", "attack", "rangedAttack", "facePlayer", "toPlayer", "wait"];
+  let possibleAI = ["heal", "attack", "rangedAttack"];
   for (let i = 0; i < mobCount; i ++){
     let id = possibleID[randomInt(0, possibleID.length)];
     let mob = new Mobs(id, randomInt(25, stage.loop * 20), 128, 128, stage);
@@ -1019,7 +1019,9 @@ let infiniteStage = new Stage((stage) => {
     let initialAICount = randomInt(0, stage.loop);
     let repeatAICount = randomInt(0, Math.floor(stage.loop / 2));
     for (let j = 0; j < initialAICount; j ++){
-      mob.AI.initial.push(possibleAI[randomInt(0, possibleAI.length)]);
+      let ai = possibleAI[randomInt(0, possibleAI.length)];
+      if (ai)
+      //mob.AI.initial.push();
     }
     for (let k = 0; k < initialAICount; k ++){
       mob.AI.repeat.push(possibleAI[randomInt(0, possibleAI.length)]);
