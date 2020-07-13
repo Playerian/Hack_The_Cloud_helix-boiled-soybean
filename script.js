@@ -156,6 +156,12 @@ class Battler {
     if (this.stage){
       this.stage.removeEnemy(this);
     }
+    if (this.isPrince){
+      dialogueController.queue.push(new Dialogue("I'm free cy@", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince.png?v=1594593855915", true));
+      dialogueController.queue.push(new Dialogue("I'm mad now! I will defeat you first then ", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+      dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+      dialogueController.renderDialogue();
+    }
   }
 }
 
@@ -304,6 +310,30 @@ class Mobs extends Battler {
           this.onAttack();
         }
         return;
+      }
+      if (this.act === "summon"){
+        if (objectList[2].isPrince){
+          if (randomInt(0, 2) === 0){
+            let mob = new Mobs(4, 50, 128, 128, this.stage);
+            mob.jumpTo(this.x, this.y);
+            mob.speed = 3;
+            //range bot
+            mob.AI = {
+              initial: [],
+              repeat: ["toPlayerY", "facePlayer", "rangedAttack20"]
+            }
+          }else{
+            let mob = new Mobs(1, 100, 128, 128, this.stage);
+            mob.jumpTo(this.x, this.y);
+            mob.speed = 2;
+            //range bot
+            mob.AI = {
+              initial: [],
+              repeat: ["toPlayer", "wait250", "attack", "wait1000"]
+            }
+          }
+        }
+        this.resolveAct(this.act);
       }
       if(this.act.includes("rangedAttack")){
         if (this.currentAction !== "attack2"){
@@ -906,7 +936,7 @@ let stage5 = new Stage((stage) => {
     // initial: [],
     // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     initial: ["facePlayer"],
-    repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
+    repeat: ["toPlayerY", "summon","rangedAttack10", "wait100","facePlayer", "summon"]
   }
   //prince
   let prince = new Mobs(5, 500, 128, 128, stage);
