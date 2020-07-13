@@ -179,6 +179,11 @@ a:hover{
   cursor: pointer;
 }
 
+.infiniteMode{
+  background-color: white;
+  color: chololate;
+}
+
 #pause{
   text-decoration: underline;
 }

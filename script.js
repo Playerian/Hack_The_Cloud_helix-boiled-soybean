@@ -984,6 +984,10 @@ let stage6 = new Stage((stage) => {
   cleanseProjectile();
 })
 
+let infiniteStage = new Stage((stage) => {
+  c.style.backgroundImage = backgroundImages[0];
+});
+
 let currentStage;
 
 
@@ -999,19 +1003,23 @@ function cleanseProjectile(){
   }
 }
 
-function initGame(isHard){
+function initGame(isHard, isInfinite){
   if (currentStage){
     currentStage.enemyList = [];
   }
   pause();
-  objectList = [];
-  currentStage = stage1;
-  stage1.startStage();
-  mainChar = new Main(0, 100, 128, 128);
-  mainChar.jumpTo(50, 250);
-  changeBackground();
-  if (isHard){
-    mainChar.hp = 1;
+  if (!isInfinite){
+    objectList = [];
+    currentStage = stage1;
+    stage1.startStage();
+    mainChar = new Main(0, 100, 128, 128);
+    mainChar.jumpTo(50, 250);
+    changeBackground();
+    if (isHard){
+      mainChar.hp = 1;
+    }
+  }else{
+    objectList = [objectList[0]];
   }
   render();
 }
@@ -1054,6 +1062,16 @@ $("#restart").click(function(){
                     
 $(".restartHard").click(function(){
   initGame(true);
+  $("#pause").hide();
+  $("#resume").hide();
+  $("#restart").hide();
+  $(".restartHard").hide();
+  $("#quit").hide();
+  $("#gameOver").hide();
+});
+
+$(".infiniteMode").click(function(){
+  initGame(true, true);
   $("#pause").hide();
   $("#resume").hide();
   $("#restart").hide();
