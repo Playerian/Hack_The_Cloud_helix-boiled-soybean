@@ -12,7 +12,7 @@ let ShowHitBox = false
 // UI for pause
 $("#pause").hide();
 $("#restart").hide();
-$("#restartHard").hide();
+$(".restartHard").hide();
 $("#resume").hide();
 $("#quit").hide();
 
@@ -131,10 +131,9 @@ class Battler {
     this.hp += value;
     if (this.hp <= 0){
       if (this === mainChar){
-        $("#UI").show();
         $("#gameOver").show();
         $("#restart").show();
-        $("#restartHard").show();
+        $(".restartHard").show();
         $("#quit").show();
         pause();
       }
@@ -998,8 +997,6 @@ function cleanseProjectile(){
 }
 
 function initGame(isHard){
-  pause();
-  $("#UI").hide();
   if (currentStage){
     currentStage.enemyList = [];
   }
@@ -1029,28 +1026,23 @@ function play(){
   $("#pause").hide();
   $("#resume").hide();
   $("#restart").hide();
-  $("#restartHard").hide();
+  $(".restartHard").hide();
   $("#quit").hide();
   $("#gameOver").hide();
   interval = setInterval(loop, 1000 / fps);
 }
 
 function pauseUI(){
-  $("#UI").show();
   $("#pause").show();
   $("#resume").show();
   $("#restart").show();
-  $("#restartHard").show();
+  $(".restartHard").show();
   $("#quit").show();
 }
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min) ) + min;
 }
-
-$("#restart").click(function(){
-  initGame();
-});
 
 $(".restartHard").click(function(){
   initGame(true);
@@ -1095,4 +1087,4 @@ function changeBackground(){
 
 changeBackground();
 
-initGame();
+
