@@ -184,10 +184,18 @@ a:hover{
   -webkit-text-fill-color: transparent;
 }
 
-#click{
+#door{
   position: absolute;
-  top: -3%;
-  
+  right: 12%;
+  top: 30%;
+  height: 25%;
+  width: 15%;
+}
+
+#clickDoor{
+  position: absolute;
+  right: 15%;
+  top: 40%;
 }
 
 #UI{

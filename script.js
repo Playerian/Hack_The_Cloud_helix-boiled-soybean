@@ -16,7 +16,7 @@ $("#resume").hide();
 $("#quit").hide();
 
 $("#gameOver").hide();
-$("#door").hide();
+// $("#door").hide();
 
 //constructors
 class Battler {
@@ -811,7 +811,7 @@ let stage1 = new Stage((stage) => {
     repeat: ["toPlayer", "wait250", "attack", "wait1000"]
   }
   render();
-  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured prince! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
+  dialogueController.queue.push(new Dialogue("Once upon a time the prince in kingdom Green has been captured. Princess Green is on her mission to save the captured prince! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
   dialogueController.queue.push(new Dialogue("Show me where the prince is! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
@@ -972,11 +972,10 @@ let stage6 = new Stage((stage) => {
   cleanseProjectile();
 })
 
-let currentStage = stage1;
-stage1.startStage();
+let currentStage;
 
-let mainChar = new Main(0, 100, 128, 128);
-mainChar.jumpTo(50, 250);
+
+let mainChar;
 
 function cleanseProjectile(){
   for (let i = 0; i < objectList.length; i ++) {
@@ -988,7 +987,23 @@ function cleanseProjectile(){
   }
 }
 
-loop();
+function initGame(isHard){
+  pause();
+  $("#UI").hide();
+  if (currentStage){
+    currentStage.enemyList = [];
+  }
+  objectList = [];
+  currentStage = stage1;
+  stage1.startStage();
+  mainChar = new Main(0, 100, 128, 128);
+  mainChar.jumpTo(50, 250);
+  changeBackground();
+  if (isHard){
+    mainChar.hp = 1;
+  }
+  render();
+}
 
 function loop(){
   handleKeys();
@@ -1010,6 +1025,7 @@ function play(){
 }
 
 function pauseUI(){
+  $("#UI").show();
   $("#pause").show();
   $("#resume").show();
   $("#restart").show();
@@ -1019,6 +1035,10 @@ function pauseUI(){
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min) ) + min;
 }
+
+$("#restart").click(function(){
+  initGame();
+});
 
 $("#resume").click(function(){
   play();
@@ -1057,3 +1077,5 @@ function changeBackground(){
 }
 
 changeBackground();
+
+initGame();
