@@ -335,8 +335,8 @@ class Mobs extends Battler {
             mob.AI = {
               initial: [],
               repeat: ["toPlayer", "wait250", "attack", "wait1000"]
-              mob.damage = 5
             }
+            mob.damage = 5
           }
         }
         this.resolveAct(this.act);
