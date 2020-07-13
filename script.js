@@ -1062,7 +1062,11 @@ $(document).keyup(function(e) {
   if (e.which === 27 && game === true) {
     pause();
     pauseUI();
-  } else if (e.which === 27 )
+    game = false;
+  } else if (e.which === 27 && game === false) {
+    play();
+    game = true;
+  }
 });
 
 let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145249/4779a7547f510ddb98a89edda4df3c78.png)", 
