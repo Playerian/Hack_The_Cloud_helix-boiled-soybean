@@ -745,17 +745,13 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  //let mob = new Mobs(1, 100, 128, 128, stage);
-    let mob = new Boss(3, 1000, 128, 128, stage)
-    mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer","attack"]]}
+  let mob = new Mobs(1, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
   mob.AI = {
-    // initial: [],
-    // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
-    initial: ["facePlayer"],
-    repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
+    initial: [],
+    repeat: ["toPlayer", "wait250", "attack", "wait1000"]
   }
   render();
   dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
@@ -861,9 +857,44 @@ let stage4 = new Stage((stage) => {
   dialogueController.renderDialogue();
 }, (stage) => {
   //stage end
+  dialogueController.onDialogueFinish = () => {
+    currentStage = stage5;
+    changeBackground();
+    stage5.startStage();
+  };
+  dialogueController.queue.push(new Dialogue("I think it's the end next!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.renderDialogue();
+});
+
+let stage5 = new Stage((stage) => {
+  //stage start
+  cleanseProjectile();
+  mainChar.facingRight = 1;
+  mainChar.jumpTo(50, 200);
+  let mob = new Boss(3, 1000, 128, 128, stage)
+  mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer", "wait150", "attack", "rangedAttack5"]]}
+  mob.jumpTo(800, 250);
+  mob.speed = 5;
+  //melee bot
+  mob.AI = {
+    // initial: [],
+    // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
+    initial: ["facePlayer"],
+    repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
+  }
+  render();
+  dialogueController.queue.push(new Dialogue("I am surrounded!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", false));
+  dialogueController.renderDialogue();
+}, (stage) => {
+  currentStage = stage6;
+  changeBackground();
+  //stage end
   
 });
 
+let stage6 = new Stage((stage) => {
+  
+})
 
 let currentStage = stage1;
 stage1.startStage();
@@ -929,6 +960,7 @@ let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20
                        "url(https://c4.wallpaperflare.com/wallpaper/865/102/489/video-games-nature-river-fantasy-art-wallpaper-preview.jpg)",
                         "url(https://i.imgur.com/P3UPB1H.jpg)",
                        "url(https://image.freepik.com/free-vector/medieval-castle-throne-room-ballroom-interior-with-knights-armor-both-sides-king_33099-892.jpg)",
+                        "url(https://i.imgur.com/o9C8FmJ.jpg)",
                        ];
 
 
@@ -941,8 +973,10 @@ function changeBackground(){
     c.style.backgroundImage = backgroundImages[2];
   } else if (currentStage === stage4){
     c.style.backgroundImage = backgroundImages[3];
-  } else if (currentStage === "stage5"){
+  } else if (currentStage === stage5){
     c.style.backgroundImage = backgroundImages[4];
+  } else if (currentStage === stage6){
+    c.style.backgroundImage = backgroundImages[5];
   }
 }
 
