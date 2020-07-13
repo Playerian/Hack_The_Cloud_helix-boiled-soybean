@@ -989,9 +989,23 @@ let infiniteStage = new Stage((stage) => {
   
 }, (stage) => {
   //on stage end repeat spawn
+  cleanseProjectile();
   console.log(`Level ${stage.loop}`);
-  let mobCount = randomInt(0, stage.loop);
+  dialogueController.queue.push(new Dialogue(`You are currently at loop ${stage.loop}! Good Luck~`, "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
+  dialogueController.renderDialogue();
+  c.style.backgroundImage = backgroundImages[randomInt(0, backgroundImages.length)];
   
+  let mobCount = randomInt(0, stage.loop / 3);
+  if (mobCount > 10){
+    mobCount = 10;
+  }else if (mobCount <= 0){
+    mobCount = 1;
+  }
+  let possibleID = [1, 3, 4, 5];
+  for (let i = 0; i < mobCount; i ++){
+    let id = possibleID[randomInt(0, possibleID.length)];
+    let mob = new Mobs(id, randomInt(25, stage.loop ), 128, 128, stage);
+  }
 });
 
 let currentStage;
@@ -1047,6 +1061,7 @@ function loop(){
 
 function pause(){
   clearInterval(interval);
+  interval = undefined;
 }
 
 function play(){
@@ -1057,7 +1072,9 @@ function play(){
   $(".infiniteMode").hide();
   $("#quit").hide();
   $("#gameOver").hide();
-  interval = setInterval(loop, 1000 / fps);
+  if (interval === undefined){
+    interval = setInterval(loop, 1000 / fps);
+  }
 }
 
 function pauseUI(){
@@ -1100,6 +1117,7 @@ $(".infiniteMode").click(function(){
 });
 
 $("#resume").click(function(){
+  game = true
   play();
 });
                    
