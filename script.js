@@ -328,7 +328,7 @@ class Mobs extends Battler {
               repeat: ["toPlayerY", "facePlayer", "rangedAttack20", "toPlayer"]
             }
           }else{
-            let mob = new Mobs(1, 100, 128, 128, this.stage);
+            let mob = new Mobs(1, 75, 128, 128, this.stage);
             mob.jumpTo(this.x, this.y);
             mob.speed = 2;
             //range bot
@@ -1003,6 +1003,7 @@ function initGame(isHard){
   if (currentStage){
     currentStage.enemyList = [];
   }
+  pause();
   objectList = [];
   currentStage = stage1;
   stage1.startStage();
@@ -1053,6 +1054,12 @@ $("#restart").click(function(){
                     
 $(".restartHard").click(function(){
   initGame(true);
+  $("#pause").hide();
+  $("#resume").hide();
+  $("#restart").hide();
+  $(".restartHard").hide();
+  $("#quit").hide();
+  $("#gameOver").hide();
 });
 
 $("#resume").click(function(){
