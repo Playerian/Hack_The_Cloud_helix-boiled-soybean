@@ -17,8 +17,8 @@ $("#resume").hide();
 $("#quit").hide();
 
 $("#gameOver").hide();
-// $("#door").hide();
-// $("#clickDoor").hide();
+$("#door").hide();
+$("#clickDoor").hide();
 
 //constructors
 class Battler {
@@ -1052,7 +1052,7 @@ $("#restart").click(function(){
   initGame();
 });
 
-$("#restartHard").click(function(){
+$(".restartHard").click(function(){
   initGame(true);
 });
 
