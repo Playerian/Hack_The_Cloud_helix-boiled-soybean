@@ -722,6 +722,18 @@ let sprite = [
     attack2:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanshoot.png?v=1594589348929",
     hitBox: [[-110,4,84,76],[25,4,84,76]] 
+  },
+  {
+  //prince
+    stand:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+    walk:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+    attack:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+    attack2:
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+    hitBox: [[-128,0,95,128],[20,0,95,128]] 
   }
 ];
 
@@ -745,7 +757,7 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(1, 100, 128, 128, stage);
+  let mob = new Mobs(5, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
@@ -886,7 +898,11 @@ let stage5 = new Stage((stage) => {
   dialogueController.queue.push(new Dialogue("How did you get pass all those guards? Doesn't matter, I will stop you right here.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("......", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince.png?v=1594593855915", true));
-  dialogueController.queue.push(new Dialogue("Princess Green, you fool! Look around you, everything here is powered by prince", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("Princess Green, you fool! Look around you, everything here is powered by the prince. Without the prince, the people in kingdom Red will die!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("You can find alternatives for power", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("Like what?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("Love, something more powerful than any fuel we had ever used before.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.renderDialogue();
 }, (stage) => {
   currentStage = stage6;
