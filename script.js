@@ -659,7 +659,7 @@ let sprite = [
   // },
 
   {
-    //guy
+    //guy 0
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyWalk.png?v=1594501701844",
     walk:
@@ -676,7 +676,7 @@ let sprite = [
   },
 
   {
-    //turrent
+    //turrent 1
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FturrentWalk.png?v=1594499006955",
     walk:
@@ -688,7 +688,7 @@ let sprite = [
     hitBox: [[-99, 25,81,97],[18, 25, 81, 97]]
   },
   {
-    //bullet
+    //bullet 2
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FguyBullet.png?v=1594510138936",
     walk:
@@ -700,7 +700,7 @@ let sprite = [
     hitBox: [[-70, 59,10,5],[60, 59, 10, 5]]
   },
   {
-    //redprincess
+    //redprincess 3
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FredWalk.png?v=1594587149260",
     walk:
@@ -712,7 +712,7 @@ let sprite = [
     hitBox: [[-119, 2,102,124],[17, 2, 102, 124]] 
   },
   {
-  //trashcan
+  //trashcan 4
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Ftrashcanwalk.png?v=1594589217594",
     walk:
@@ -724,7 +724,7 @@ let sprite = [
     hitBox: [[-110,4,84,76],[25,4,84,76]] 
   },
   {
-  //prince
+  //prince 5
     stand:
       "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince2.png?v=1594602266899",
     walk:
@@ -884,7 +884,7 @@ let stage5 = new Stage((stage) => {
   mainChar.facingRight = 1;
   mainChar.jumpTo(50, 200);
   let mob = new Boss(3, 1000, 128, 128, stage)
-  mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer", "wait150", "attack", "rangedAttack5"]]}
+  mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer", "wait150", "attack", "wait150", "rangedAttack5"]]}
   mob.jumpTo(800, 250);
   mob.speed = 5;
   //melee bot
