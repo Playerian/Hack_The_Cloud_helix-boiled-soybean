@@ -986,7 +986,7 @@ let stage6 = new Stage((stage) => {
 })
 
 let infiniteStage = new Stage((stage) => {
-  
+  let mob = new Mobs(1, 1, 128, 128, stage);
 }, (stage) => {
   //on stage end repeat spawn
   cleanseProjectile();
@@ -995,6 +995,8 @@ let infiniteStage = new Stage((stage) => {
   dialogueController.renderDialogue();
   c.style.backgroundImage = backgroundImages[randomInt(0, backgroundImages.length)];
   
+  stage.loop += 1;
+  mainChar.jumpTo(50, 200);
   let mobCount = randomInt(0, stage.loop / 3);
   if (mobCount > 10){
     mobCount = 10;
@@ -1002,9 +1004,27 @@ let infiniteStage = new Stage((stage) => {
     mobCount = 1;
   }
   let possibleID = [1, 3, 4, 5];
+  let possibleAI = ["heal", "attack", "rangedAttack", "facePlayer", "toPlayer", "wait"];
   for (let i = 0; i < mobCount; i ++){
     let id = possibleID[randomInt(0, possibleID.length)];
-    let mob = new Mobs(id, randomInt(25, stage.loop ), 128, 128, stage);
+    let mob = new Mobs(id, randomInt(25, stage.loop * 20), 128, 128, stage);
+    mob.speed = randomInt(1, randomInt(0.1, stage.loop + 1));
+    if (mob.speed > 7){
+      mob.speed = 7;
+    }
+    mob.AI = {
+      initial: [],
+      repeat: []
+    }
+    let initialAICount = randomInt(0, stage.loop);
+    let repeatAICount = randomInt(0, Math.floor(stage.loop / 2));
+    for (let j = 0; j < initialAICount; j ++){
+      mob.AI.initial.push(possibleAI[randomInt(0, possibleAI.length)]);
+    }
+    for (let k = 0; k < initialAICount; k ++){
+      mob.AI.repeat.push(possibleAI[randomInt(0, possibleAI.length)]);
+    }
+    mob.jumpTo(randomInt(width / 2, width), randomInt(0, height));
   }
 });
 
