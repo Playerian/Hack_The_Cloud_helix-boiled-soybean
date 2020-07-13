@@ -137,8 +137,12 @@ class Battler {
     }
     
     if(this.changeAI === true){
-      if(this.newAI.threshold > mob.hp/mob.maxHp){
-        
+      console.log(this.hp/this.maxhp, this.newAI.threshold)
+      if(this.newAI.threshold > this.hp/this.maxHp){
+        console.log(this)
+        this.AI.initial = this.newAI.AI[0]
+        this.AI.repeat = this.newAI.AI[1]
+        this.changeAI = false
       }
     }
   }
@@ -742,8 +746,9 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  //let mob = new Mobs(1, 100, 128, 128, stage);
-    let mob = new Mobs(3, 100, 128, 128, stage)
+  let mob = new Mobs(1, 100, 128, 128, stage);
+    // let mob = new Boss(3, 100, 128, 128, stage)
+    mob.newAI = {threshold:0.50, AI:[[],[]]}
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
@@ -838,7 +843,20 @@ let stage4 = new Stage((stage) => {
   //stage start
   cleanseProjectile();
   mainChar.facingRight = 1;
-  mainChar.jumpTo(50, 200);
+  mainChar.jumpTo(496, 200);
+  for (let i = 0; i < 8; i ++){
+    let mob = new Mobs(1, 33, 128, 128, stage);
+    mob.speed = 4;
+    mob.AI ={
+      initial: [],
+      repeat: ["toPlayer", "wait"+randomInt(250, 1000), "attack", "wait"+randomInt(0, 750)]
+    }
+    if (i < 4){
+      mob.jumpTo(50, i * 135 + 25);
+    }else{
+      mob.jumpTo(850, (i - 4) * 135 + 25);
+    }
+  }
   render();
   dialogueController.queue.push(new Dialogue("I am surrounded!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
@@ -892,6 +910,10 @@ function pauseUI(){
   $("#quit").show();
 }
 
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
 $("#resume").click(function(){
   play();
 });
@@ -924,16 +946,3 @@ function changeBackground(){
 }
 
 changeBackground();
-
-function changeTitleColor(){
-  let start = 1;
-  if (start === 0){
-    $("#gTitle").css("background-image", "linear-gradient(to right, #ff6e7f 0%, #bfe9ff 51%, #ff6e7f 100%)");
-  } else if (start === 1){
-    $("#gTitle").css("background-image", "Linear-gradient(to right, #ff6e7f 0%, #ff6e7f 51%, #bfe9ff 100%)");
-  } else if (start === 2){
-    $("#gTitle").css("background-image", "Linear-gradient(to right, #ff6e7f 0%, #ff6e7f 51%, #bfe9ff 100%)");
-  }
-}
-
-changeTitleColor();
