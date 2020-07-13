@@ -624,7 +624,7 @@ function handleMoveFrames() {
       if(object.isFriendly){
         objectList.forEach((v,i)=>{
           if(v !== undefined && object.isCollide(v)){
-            if(v.id === 1 || v.id === 3 || v.id === 4){ //check id to see if is enemy
+            if(v.id === 1 || v.id === 3 || v.id === 4 || v.id === 5){ //check id to see if is enemy
               v.gainHp(-object.damage);
               object.gainHp(-2333); //kills bullet
               return;
@@ -726,14 +726,14 @@ let sprite = [
   {
   //prince
     stand:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince2.png?v=1594602266899",
     walk:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince2.png?v=1594602266899",
     attack:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince2.png?v=1594602266899",
     attack2:
-      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2FprinceCarBattery.png?v=1594601421185",
-    hitBox: [[-128,0,95,128],[20,0,95,128]] 
+      "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince2.png?v=1594602266899",
+    hitBox: [[-105,6,100,110],[5,6,100,110]] 
   }
 ];
 
@@ -902,7 +902,8 @@ let stage5 = new Stage((stage) => {
   dialogueController.queue.push(new Dialogue("You can find alternatives for power", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("Like what?", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.queue.push(new Dialogue("Love, something more powerful than any fuel we had ever used before.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
-  dialogueController.queue.push(new Dialogue("", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("That's impossible! We can't transition to love in a few days! We have to have the prince! Enough Talking, let's fight!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("(Princess Red is powered by the prince, I should try to free the prince first.)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
   currentStage = stage6;
