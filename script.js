@@ -345,25 +345,27 @@ class Mobs extends Battler {
       }
       if (this.act === "summon2"){
         if (randomInt(0, 2) === 0){
-            let mob = new Mobs(4, 50, 128, 128, this.stage);
-            mob.jumpTo(this.x, this.y);
-            mob.speed = 3;
-            //range bot
-            mob.AI = {
-              initial: [],
-              repeat: ["toPlayerY", "facePlayer", "rangedAttack20", "toPlayer"]
-            }
-          }else{
-            let mob = new Mobs(1, 75, 128, 128, this.stage);
-            mob.jumpTo(this.x, this.y);
-            mob.speed = 2;
-            //range bot
-            mob.AI = {
-              initial: [],
-              repeat: ["toPlayer", "wait250", "attack", "wait1000"]
-            }
-            mob.damage = 5
+          let mob = new Mobs(4, 50, 128, 128, this.stage);
+          mob.jumpTo(this.x, this.y);
+          mob.speed = 3;
+          //range bot
+          mob.AI = {
+            initial: [],
+            repeat: ["toPlayerY", "facePlayer", "rangedAttack20", "toPlayer"]
           }
+        }else{
+          let mob = new Mobs(1, 75, 128, 128, this.stage);
+          mob.jumpTo(this.x, this.y);
+          mob.speed = 2;
+          //range bot
+          mob.AI = {
+            initial: [],
+            repeat: ["toPlayer", "wait250", "attack", "wait1000"]
+          }
+          mob.damage = 5
+        }
+        this.resolveAct(this.act);
+        return;
       }
       if(this.act.includes("rangedAttack")){
         if (this.currentAction !== "attack2"){
@@ -1026,18 +1028,16 @@ let infiniteStage = new Stage((stage) => {
     mobCount = 1;
   }
   let possibleID = [1, 3, 4, 5];
-  let possibleAI = ["attack", "rangedAttack"];
+  let possibleAI = ["attack", "rangedAttack", "summon","heal"];
   let AIPack = {
     "attack": ["toPlayer", "wait","attack"],
-    "rangedAttack": ["toPlayerY", "rangedAttack"],
-    "heal": ["heal"]
+    "rangedAttack": ["wait250", "toPlayerY", "facePlayer", "rangedAttack"],
+    "heal": ["heal"],
+    "summon": ["summon2", "wait"]
   }
   for (let i = 0; i < mobCount; i ++){
     let id = possibleID[randomInt(0, possibleID.length)];
     let mob = new Mobs(id, randomInt(25, stage.loop * 20), 128, 128, stage);
-    if (id === 4){
-      
-    }
     mob.speed = randomInt(1, randomInt(0.1, stage.loop + 1));
     if (mob.speed > 7){
       mob.speed = 7;
@@ -1047,6 +1047,10 @@ let infiniteStage = new Stage((stage) => {
       repeat: []
     }
     let repeatAICount = randomInt(0, Math.floor(stage.loop));
+    if (id === 4){
+      mob.health *= 1.5;
+      repeatAICount += 2;
+    }
     for (let j = 0; j < repeatAICount; j ++){
       let ai = possibleAI[randomInt(0, possibleAI.length)];
       if (ai === "attack"){
@@ -1063,7 +1067,14 @@ let infiniteStage = new Stage((stage) => {
       }else if (ai === "heal"){
         let attackTime = randomInt(1, stage.loop * 2);
         mob.AI.repeat = mob.AI.repeat.concat(AIPack.heal);
-        mob.AI.repeat[mob.AI.repeat.length - 1] = "heal" + attackTime;
+        mob.AI.repeat[mob.AI.repeat.length - 1] = "heal" + attackTime/10;
+      }else if (ai === "summon"){
+        mob.AI.repeat = mob.AI.repeat.concat(AIPack.summon);
+        let waitTime = randomInt(5000 - stage.loop * 100, 5000);
+        if (waitTime < 1000){
+          waitTime = 1000;
+        }
+        mob.AI.repeat[mob.AI.repeat.length - 1] = "wait" + waitTime;
       }
     }
     mob.jumpTo(randomInt(width / 2, width), randomInt(0, height));
