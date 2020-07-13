@@ -137,6 +137,7 @@ class Battler {
         $("#restart").show();
         $(".restartHard").show();
         $("#quit").show();
+        $(".infiniteMode").show();
         pause();
       }
       this.destroySelf();
