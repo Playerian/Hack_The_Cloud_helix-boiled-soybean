@@ -991,6 +991,7 @@ let infiniteStage = new Stage((stage) => {
   //on stage end repeat spawn
   console.log(`Level ${stage.loop}`);
   let mobCount = randomInt(0, stage.loop);
+  
 });
 
 let currentStage;
@@ -1084,6 +1085,7 @@ $(".restartHard").click(function(){
   $(".restartHard").hide();
   $("#quit").hide();
   $("#gameOver").hide();
+  $(".infiniteMode").hide();
 });
 
 $(".infiniteMode").click(function(){
