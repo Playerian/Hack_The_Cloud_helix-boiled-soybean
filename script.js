@@ -9,6 +9,8 @@ c.height = height;
 let objectList = [];
 let keyList = {};
 let ShowHitBox = false
+
+let game = true;
 // UI for pause
 $("#pause").hide();
 $("#restart").hide();
@@ -1057,10 +1059,10 @@ $("#resume").click(function(){
 });
                    
 $(document).keyup(function(e) {
-  if (e.which === 27) {
+  if (e.which === 27 && game === true) {
     pause();
     pauseUI();
-  }
+  } else if (e.which === 27 )
 });
 
 let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145249/4779a7547f510ddb98a89edda4df3c78.png)", 
