@@ -1044,6 +1044,10 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min) ) + min;
 }
 
+$("#restart").click(function(){
+  initGame();
+});
+                    
 $(".restartHard").click(function(){
   initGame(true);
 });
@@ -1087,4 +1091,4 @@ function changeBackground(){
 
 changeBackground();
 
-
+initGame();
