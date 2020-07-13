@@ -167,6 +167,19 @@ a:hover{
   cursor: pointer;
 }
 
+#restartHard{
+  background-color: red;
+  color: white;
+  font-size: 150%;
+  margin-top: 5%;
+}
+
+#restartHard:hover{
+  background-color: black;
+  color: blue;
+  cursor: pointer;
+}
+
 #pause{
   text-decoration: underline;
 }
@@ -224,3 +237,6 @@ a:hover{
 
 /* End */
 
+#endingBody{
+  background-image: url("https://static1.fjcdn.com/comments/Id+have+her+not+wear+panties+too+if+i+could+_e3d64985fe039d494fe08dc1904567d5.png", "http://pixelartmaker.com/art/5b394971fa35655.png")
+}

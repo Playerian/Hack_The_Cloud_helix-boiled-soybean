@@ -8,15 +8,17 @@ c.height = height;
 
 let objectList = [];
 let keyList = {};
-
+let ShowHitBox = false
 // UI for pause
 $("#pause").hide();
 $("#restart").hide();
+$("#restartHard").hide();
 $("#resume").hide();
 $("#quit").hide();
 
 $("#gameOver").hide();
 // $("#door").hide();
+// $("#clickDoor").hide();
 
 //constructors
 class Battler {
@@ -129,8 +131,10 @@ class Battler {
     this.hp += value;
     if (this.hp <= 0){
       if (this === mainChar){
+        $("#UI").show();
         $("#gameOver").show();
         $("#restart").show();
+        $("#restartHard").show();
         $("#quit").show();
         pause();
       }
@@ -334,6 +338,7 @@ class Mobs extends Battler {
           }
         }
         this.resolveAct(this.act);
+        return;
       }
       if(this.act.includes("rangedAttack")){
         if (this.currentAction !== "attack2"){
@@ -359,6 +364,7 @@ class Mobs extends Battler {
         if(this.hp > this.maxhp){
           this.hp = this.maxhp
         }
+        return;
       }
       
       if (this.act.includes("wait")){
@@ -553,7 +559,9 @@ function render() {
       ctx.beginPath();
       ctx.strokeStyle = "red";
       //hitbox rect
-      ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][2], object.hitBox[0][3]);
+      if(ShowHitBox){
+        ctx.rect(objectX+object.hitBox[0][0], objectY+object.hitBox[0][1], object.hitBox[0][2], object.hitBox[0][3]);
+      }
       ctx.stroke();
       if (!object.isProjectile){
         //hpbar border
@@ -580,7 +588,9 @@ function render() {
       ctx.beginPath();
       ctx.strokeStyle = "red";
       //hitbox rect
-      ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][2], object.hitBox[1][3]);
+      if(ShowHitBox){
+        ctx.rect(objectX+object.hitBox[1][0], objectY+object.hitBox[1][1], object.hitBox[1][2], object.hitBox[1][3]);
+      }
       ctx.stroke();
       if (!object.isProjectile){
         //hpbar border
@@ -1019,6 +1029,7 @@ function play(){
   $("#pause").hide();
   $("#resume").hide();
   $("#restart").hide();
+  $("#restartHard").hide();
   $("#quit").hide();
   $("#gameOver").hide();
   interval = setInterval(loop, 1000 / fps);
@@ -1029,6 +1040,7 @@ function pauseUI(){
   $("#pause").show();
   $("#resume").show();
   $("#restart").show();
+  $("#restartHard").show();
   $("#quit").show();
 }
 
@@ -1038,6 +1050,10 @@ function randomInt(min, max) {
 
 $("#restart").click(function(){
   initGame();
+});
+
+$("#restartHard").click(function(){
+  initGame(true);
 });
 
 $("#resume").click(function(){
@@ -1073,6 +1089,7 @@ function changeBackground(){
   } else if (currentStage === stage6){
     c.style.backgroundImage = backgroundImages[5];
     $("#door").show();
+    $("#clickDoor").show();
   }
 }
 
