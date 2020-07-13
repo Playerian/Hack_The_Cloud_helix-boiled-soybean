@@ -985,7 +985,10 @@ let stage6 = new Stage((stage) => {
 })
 
 let infiniteStage = new Stage((stage) => {
-  c.style.backgroundImage = backgroundImages[0];
+  
+}, (stage) => {
+  //on stage end repeat spawn
+  
 });
 
 let currentStage;
@@ -1019,7 +1022,13 @@ function initGame(isHard, isInfinite){
       mainChar.hp = 1;
     }
   }else{
-    objectList = [objectList[0]];
+    if (mainChar.hp <= 0){
+      mainChar.hp = mainChar.maxhp;
+    }
+    objectList = [mainChar];
+    currentStage = infiniteStage;
+    infiniteStage.startStage();
+    mainChar.jumpTo(50, 250);
   }
   render();
 }
@@ -1039,6 +1048,7 @@ function play(){
   $("#resume").hide();
   $("#restart").hide();
   $(".restartHard").hide();
+  $(".infiniteMode").hide();
   $("#quit").hide();
   $("#gameOver").hide();
   interval = setInterval(loop, 1000 / fps);
@@ -1049,6 +1059,7 @@ function pauseUI(){
   $("#resume").show();
   $("#restart").show();
   $(".restartHard").show();
+  $(".infiniteMode").show();
   $("#quit").show();
 }
 

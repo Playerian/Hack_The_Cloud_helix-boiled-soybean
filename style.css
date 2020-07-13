@@ -180,8 +180,16 @@ a:hover{
 }
 
 .infiniteMode{
-  background-color: white;
-  color: chololate;
+  background-color: purple;
+  color: white;
+  font-size: 150%;
+  margin-top: 5%;
+}
+
+.infiniteMode:hover{
+  background-color: black;
+  color: blue;
+  cursor: pointer;
 }
 
 #pause{
@@ -213,6 +221,10 @@ a:hover{
   position: absolute;
   right: 15%;
   top: 40%;
+}
+
+#esc{
+  font-size: 120%;
 }
 
 #UI{
