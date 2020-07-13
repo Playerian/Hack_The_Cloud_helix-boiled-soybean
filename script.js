@@ -141,7 +141,7 @@ class Battler {
       if(this.hp/this.maxhp < this.newAI.threshold) {
         this.AI.initial = this.newAI.AI[0]
         this.AI.repeat = this.newAI.AI[1]
-        this.changeAI = false
+        //this.changeAI = false
       }
     }
   }
@@ -192,7 +192,7 @@ class Mobs extends Battler {
     this.isMainChar = false;
     this.AI = {
       initial: ["toPlayerY", "facePlayer"],
-      repeat: ["rangedAttack10", "wait1000", "toPlayer", "wait250", "toPlayerY", "facePlayer"]
+      repeat: ["rangedAttack10", "wait1000", "toPlayer", "wait250", "toPlayerY", "facePlayer","heal"]
     };
     this.count = 0;
     this.act;
@@ -323,7 +323,12 @@ class Mobs extends Battler {
       }
       
       if(this.act.includes("heal")){
-        this.gainHp(parseInt(this.act.substring(4)))
+        if(!isNaN(parseInt(this.act.substring(4)))){
+          this.gainHp(parseInt(this.act.substring(4)))
+        }
+        if(this.hp > this.maxhp){
+          this.hp = this.maxhp
+        }
       }
       
       if (this.act.includes("wait")){
@@ -368,6 +373,12 @@ class Boss extends Mobs{
     this.newAI = {}
     this.newAI.threshold
     this.newAI.AI
+  }
+  
+  gainHp(hp){
+    if (!objectList[2].isPrince){
+      super.gainHp(hp);
+    }
   }
 }
 
@@ -856,7 +867,7 @@ let stage4 = new Stage((stage) => {
   mainChar.facingRight = 1;
   mainChar.jumpTo(496, 200);
   for (let i = 0; i < 8; i ++){
-    let mob = new Mobs(1, 33, 128, 128, stage);
+    let mob = new Mobs(1, 50, 128, 128, stage);
     mob.speed = 4;
     mob.AI ={
       initial: [],
@@ -899,7 +910,12 @@ let stage5 = new Stage((stage) => {
   }
   //prince
   let prince = new Mobs(5, 500, 128, 128, stage);
-  
+  prince.jumpTo(500, 380);
+  prince.AI = {
+    initial: [],
+    repeat: ["attack"]
+  }
+  prince.isPrince = true;
   render();
   dialogueController.queue.push(new Dialogue("How did you get pass all those guards? Doesn't matter, I will stop you right here.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
