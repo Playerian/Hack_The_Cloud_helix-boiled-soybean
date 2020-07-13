@@ -1021,17 +1021,21 @@ let infiniteStage = new Stage((stage) => {
       initial: [],
       repeat: []
     }
-    let initialAICount = randomInt(0, stage.loop);
     let repeatAICount = randomInt(0, Math.floor(stage.loop / 2));
-    for (let j = 0; j < initialAICount; j ++){
+    for (let j = 0; j < repeatAICount; j ++){
       let ai = possibleAI[randomInt(0, possibleAI.length)];
       if (ai === "attack"){
-        
+        mob.AI.initial.concat(AIPack.attack);
+        let waitTime = randomInt(1000 - stage.loop * 100, 1000);
+        if (waitTime < 100){
+          waitTime = 100;
+        }
+        mob.AI.initial[mob.AI.initial.length - 2] = "wait" + waitTime;
+      }else if (ai === "rangedAttack"){
+        mob.AI.initial.concat(AIPack.rangedAttack);
+        mob.AI.initial[mob.AI.initial.length - 2] = "wait" + waitTime;
       }
       //mob.AI.initial.push();
-    }
-    for (let k = 0; k < initialAICount; k ++){
-      mob.AI.repeat.push(possibleAI[randomInt(0, possibleAI.length)]);
     }
     mob.jumpTo(randomInt(width / 2, width), randomInt(0, height));
   }
