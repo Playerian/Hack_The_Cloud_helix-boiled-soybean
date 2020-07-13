@@ -322,6 +322,10 @@ class Mobs extends Battler {
         return;
       }
       
+      if(this.act.includes("heal")){
+        this.gainHp(parseInt(this.act.substring(4)))
+      }
+      
       if (this.act.includes("wait")){
         this.changeAction("stand");
         if (this.selfTimer !== undefined){
@@ -757,7 +761,7 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(5, 100, 128, 128, stage);
+  let mob = new Mobs(1, 100, 128, 128, stage);
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
@@ -887,13 +891,15 @@ let stage5 = new Stage((stage) => {
   mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer", "wait150", "attack", "wait150", "rangedAttack5"]]}
   mob.jumpTo(800, 250);
   mob.speed = 5;
-  //melee bot
   mob.AI = {
     // initial: [],
     // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     initial: ["facePlayer"],
     repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
   }
+  //prince
+  let prince = new Mobs(5, 500, 128, 128, stage);
+  
   render();
   dialogueController.queue.push(new Dialogue("How did you get pass all those guards? Doesn't matter, I will stop you right here.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
