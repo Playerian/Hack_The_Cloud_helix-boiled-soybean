@@ -754,7 +754,7 @@ let stage1 = new Stage((stage) => {
     repeat: ["toPlayer", "wait250", "attack", "wait1000"]
   }
   render();
-  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured princess! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
+  dialogueController.queue.push(new Dialogue("The prince in kingdom Green has been captured. Princess Green is on her mission to save the captured prince! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fpic.jpg?v=1594589935586", true));
   dialogueController.queue.push(new Dialogue("Show me where the prince is! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.queue.push(new Dialogue("Beep! Unauthorized personnel! Keep OUT! (Press any button to conintue)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fturrentpic.png?v=1594586865187", true));
   dialogueController.renderDialogue();
@@ -862,7 +862,7 @@ let stage4 = new Stage((stage) => {
     changeBackground();
     stage5.startStage();
   };
-  dialogueController.queue.push(new Dialogue("I think it's the end next!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("I see the red palace, I am sure the prince is inside.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 });
 
@@ -883,7 +883,10 @@ let stage5 = new Stage((stage) => {
     repeat: ["toPlayerY","rangedAttack10", "wait100","facePlayer"]
   }
   render();
-  dialogueController.queue.push(new Dialogue("I am surrounded!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", false));
+  dialogueController.queue.push(new Dialogue("How did you get pass all those guards? Doesn't matter, I will stop you right here.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
+  dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.queue.push(new Dialogue("......", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince.png?v=1594593855915", true));
+  dialogueController.queue.push(new Dialogue("Princess Green, you fool! Look around you, everything here is powered by prince", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.renderDialogue();
 }, (stage) => {
   currentStage = stage6;
@@ -962,7 +965,6 @@ let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20
                        "url(https://image.freepik.com/free-vector/medieval-castle-throne-room-ballroom-interior-with-knights-armor-both-sides-king_33099-892.jpg)",
                         "url(https://i.imgur.com/o9C8FmJ.jpg)",
                        ];
-
 
 function changeBackground(){
   if (currentStage === stage1){
