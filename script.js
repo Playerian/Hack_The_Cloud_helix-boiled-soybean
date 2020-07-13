@@ -137,9 +137,8 @@ class Battler {
     }
     
     if(this.changeAI === true){
-      console.log(this.hp/this.maxhp, this.newAI.threshold)
-      if(this.newAI.threshold > this.hp/this.maxHp){
-        console.log(this)
+      //console.log(this.hp/this.maxhp, this.newAI.threshold, this.hp/this.maxhp < this.newAI.threshold)
+      if(this.hp/this.maxhp < this.newAI.threshold) {
         this.AI.initial = this.newAI.AI[0]
         this.AI.repeat = this.newAI.AI[1]
         this.changeAI = false
@@ -278,7 +277,7 @@ class Mobs extends Battler {
         return;
       }
       if (this.act === "toPlayerY"){
-        if (this.y - mainChar.y <= this.hitBox[0][3] && this.y + this.hitBox[0][3] >= mainChar.y){
+        if (this.y - mainChar.y <= this.hitBox[0][3] / 4 && this.y + (this.hitBox[0][3] / 4) >= mainChar.y){
           this.resolveAct("toPlayerY");
           
         }else{
@@ -746,9 +745,9 @@ let dialogueController = new DialogueController();
 //staging
 let stage1 = new Stage((stage) => {
   //stage start
-  let mob = new Mobs(1, 100, 128, 128, stage);
-    // let mob = new Boss(3, 100, 128, 128, stage)
-    mob.newAI = {threshold:0.50, AI:[[],[]]}
+  //let mob = new Mobs(1, 100, 128, 128, stage);
+    let mob = new Boss(3, 1000, 128, 128, stage)
+    mob.newAI = {threshold:0.50, AI:[["facePlayer"],["toPlayer","attack"]]}
   mob.jumpTo(800, 250);
   mob.speed = 2;
   //melee bot
@@ -928,6 +927,7 @@ $(document).keyup(function(e) {
 let backgroundImages = ["url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145249/4779a7547f510ddb98a89edda4df3c78.png)", 
                        "url(https://cdn.gamedevmarket.net/wp-content/uploads/20191203145257/360a9179134324db09f345ef1c8f98b2-700x400.png)",
                        "url(https://c4.wallpaperflare.com/wallpaper/865/102/489/video-games-nature-river-fantasy-art-wallpaper-preview.jpg)",
+                        "url(https://i.imgur.com/P3UPB1H.jpg)",
                        "url(https://image.freepik.com/free-vector/medieval-castle-throne-room-ballroom-interior-with-knights-armor-both-sides-king_33099-892.jpg)",
                        ];
 
@@ -939,9 +939,10 @@ function changeBackground(){
     c.style.backgroundImage = backgroundImages[1];
   } else if (currentStage === stage3){
     c.style.backgroundImage = backgroundImages[2];
-  // } else if (currentStage === stage4){
-  //   c.style.backgroundImage = backgroundImages[3];
-  // }
+  } else if (currentStage === stage4){
+    c.style.backgroundImage = backgroundImages[3];
+  } else if (currentStage === "stage5"){
+    c.style.backgroundImage = backgroundImages[4];
   }
 }
 
