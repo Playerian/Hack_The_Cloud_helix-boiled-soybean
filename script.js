@@ -368,7 +368,7 @@ class Mobs extends Battler {
 
 class Boss extends Mobs{
   constructor(id, hp, width, height, stage) {
-    super(id, hp, width, height);
+    super(id, hp, width, height, stage);
     this.changeAI = true
     this.newAI = {}
     this.newAI.threshold
@@ -913,7 +913,7 @@ let stage5 = new Stage((stage) => {
   prince.jumpTo(500, 380);
   prince.AI = {
     initial: [],
-    repeat: ["attack"]
+    repeat: []
   }
   prince.isPrince = true;
   render();
