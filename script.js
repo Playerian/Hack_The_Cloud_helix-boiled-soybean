@@ -16,6 +16,7 @@ $("#resume").hide();
 $("#quit").hide();
 
 $("#gameOver").hide();
+$("#door").hide();
 
 //constructors
 class Battler {
@@ -158,8 +159,7 @@ class Battler {
     }
     if (this.isPrince){
       dialogueController.queue.push(new Dialogue("I'm free cy@", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fprince.png?v=1594593855915", true));
-      dialogueController.queue.push(new Dialogue("I'm mad now! I will defeat you first then ", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
-      dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+      dialogueController.queue.push(new Dialogue("I'm mad now! I will defeat you first then capture the prince back!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
       dialogueController.renderDialogue();
     }
   }
@@ -320,7 +320,7 @@ class Mobs extends Battler {
             //range bot
             mob.AI = {
               initial: [],
-              repeat: ["toPlayerY", "facePlayer", "rangedAttack20"]
+              repeat: ["toPlayerY", "facePlayer", "rangedAttack20", "toPlayer"]
             }
           }else{
             let mob = new Mobs(1, 100, 128, 128, this.stage);
@@ -936,7 +936,7 @@ let stage5 = new Stage((stage) => {
     // initial: [],
     // repeat: ["toPlayer", "wait250", "attack", "wait1000"]
     initial: ["facePlayer"],
-    repeat: ["toPlayerY", "summon","rangedAttack10", "wait100","facePlayer", "summon"]
+    repeat: ["toPlayerY", "rangedAttack10", "wait100","facePlayer", "summon", "toPlayerY", "rangedAttack10", "wait100","facePlayer"]
   }
   //prince
   let prince = new Mobs(5, 500, 128, 128, stage);
@@ -946,6 +946,7 @@ let stage5 = new Stage((stage) => {
     repeat: []
   }
   prince.isPrince = true;
+  prince.changeAction("walk")
   render();
   dialogueController.queue.push(new Dialogue("How did you get pass all those guards? Doesn't matter, I will stop you right here.", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2Fred2.png?v=1594600316442", true));
   dialogueController.queue.push(new Dialogue("Free the prince! Princess Red!", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
@@ -958,14 +959,17 @@ let stage5 = new Stage((stage) => {
   dialogueController.queue.push(new Dialogue("(Princess Red is powered by the prince, I should try to free the prince first.)", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
   dialogueController.renderDialogue();
 }, (stage) => {
-  currentStage = stage6;
-  changeBackground();
   //stage end
-  
+  dialogueController.onDialogueFinish = () => {
+    currentStage = stage6;
+    changeBackground();
+  };
+  dialogueController.queue.push(new Dialogue("Mission Accomplished", "https://cdn.glitch.com/2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e%2F2d713a23-b2e0-4a6b-9d5c-61c597ba6d8e_guyWalk.png?v=1594584060708", false));
+  dialogueController.renderDialogue();
 });
 
 let stage6 = new Stage((stage) => {
-    cleanseProjectile();
+  cleanseProjectile();
 })
 
 let currentStage = stage1;
@@ -1048,6 +1052,7 @@ function changeBackground(){
     c.style.backgroundImage = backgroundImages[4];
   } else if (currentStage === stage6){
     c.style.backgroundImage = backgroundImages[5];
+    $("#door").show();
   }
 }
 

@@ -184,6 +184,12 @@ a:hover{
   -webkit-text-fill-color: transparent;
 }
 
+#click{
+  position: absolute;
+  top: -3%;
+  
+}
+
 #UI{
   display: flex;
   flex-direction: column;
